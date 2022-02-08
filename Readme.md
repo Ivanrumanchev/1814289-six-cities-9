@@ -1,6 +1,6 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Иван Румянцев](https://up.htmlacademy.ru/react/9/user/1814289).
+* Студент: [Иван Румянцев](https://htmlacademy.ru/profile/id1814289).
 * Наставник: [Артём Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
