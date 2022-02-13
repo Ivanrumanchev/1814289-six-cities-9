@@ -13,7 +13,7 @@ const Setting: Settings = {
 ReactDOM.render(
   <React.StrictMode>
     <App
-      placesCount = { Setting.placesCount }
+      placesCount={Setting.placesCount}
     />
   </React.StrictMode>,
   document.getElementById('root'));
