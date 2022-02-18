@@ -1,4 +1,4 @@
-import Card from '../card-screen/card-screen';
+import Card from '../components/card-screen/card-screen';
 
 type MainScreenProps = {
   placesCount: number;
