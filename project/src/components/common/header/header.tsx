@@ -1,21 +1,19 @@
-import HeaderLogo from './header-logo/header-logo';
+import Logo from '../../common/logo/logo';
 import HeaderLogin from './header-login/header-login';
 
 type HeaderProps = {
-  login: boolean;
+  isLogin?: boolean;
 }
 
-Header.defaultProps = {
-  login: false,
-};
-
-function Header({login}: HeaderProps): JSX.Element {
+function Header({isLogin = false} : HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
-          <HeaderLogo />
-          {login ? '' : <HeaderLogin />}
+          <div className="header__left">
+            <Logo isHeader />
+          </div>
+          {!isLogin && <HeaderLogin />}
         </div>
       </div>
     </header>

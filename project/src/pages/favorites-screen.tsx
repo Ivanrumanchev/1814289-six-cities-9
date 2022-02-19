@@ -1,4 +1,5 @@
 import Header from '../components/common/header/header';
+import Logo from '../components/common/logo/logo';
 
 function FavoritesScreen(): JSX.Element {
   return (
@@ -25,7 +26,13 @@ function FavoritesScreen(): JSX.Element {
                     </div>
                     <div className="favorites__image-wrapper place-card__image-wrapper">
                       <a href="/">
-                        <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place" />
+                        <img
+                          className="place-card__image"
+                          src="img/apartment-small-03.jpg"
+                          width="150"
+                          height="110"
+                          alt="Place"
+                        />
                       </a>
                     </div>
                     <div className="favorites__card-info place-card__info">
@@ -57,7 +64,13 @@ function FavoritesScreen(): JSX.Element {
                   <article className="favorites__card place-card">
                     <div className="favorites__image-wrapper place-card__image-wrapper">
                       <a href="/">
-                        <img className="place-card__image" src="img/room-small.jpg" width="150" height="110" alt="Place" />
+                        <img
+                          className="place-card__image"
+                          src="img/room-small.jpg"
+                          width="150"
+                          height="110"
+                          alt="Place"
+                        />
                       </a>
                     </div>
                     <div className="favorites__card-info place-card__info">
@@ -100,7 +113,13 @@ function FavoritesScreen(): JSX.Element {
                   <article className="favorites__card place-card">
                     <div className="favorites__image-wrapper place-card__image-wrapper">
                       <a href="/">
-                        <img className="place-card__image" src="img/apartment-small-04.jpg" width="150" height="110" alt="Place" />
+                        <img
+                          className="place-card__image"
+                          src="img/apartment-small-04.jpg"
+                          width="150"
+                          height="110"
+                          alt="Place"
+                        />
                       </a>
                     </div>
                     <div className="favorites__card-info place-card__info">
@@ -135,9 +154,7 @@ function FavoritesScreen(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        <Logo />
       </footer>
     </div>
   );
