@@ -17,12 +17,12 @@ function NewReview(): JSX.Element {
           <Fragment key={rating}>
             <input
               className="form__rating-input visually-hidden"
-              name="rating" value={Math.abs(index - 5)}
-              id={`${Math.abs(index - 5)}-stars`}
+              name="rating" value={Math.abs(index - ratings.length)}
+              id={`${Math.abs(index - ratings.length)}-stars`}
               type="radio"
             />
             <label
-              htmlFor={`${Math.abs(index - 5)}-stars`}
+              htmlFor={`${Math.abs(index - ratings.length)}-stars`}
               className="reviews__rating-label form__rating-label"
               title={rating}
             >

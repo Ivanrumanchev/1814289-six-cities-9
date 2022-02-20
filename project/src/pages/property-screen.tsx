@@ -1,11 +1,14 @@
+import {useNavigate} from 'react-router-dom';
 import Header from '../components/common/header/header';
 import NewReview from '../components/property-screen/reviews/new-review/new-review';
 import {useContext} from 'react';
 import {AuthContext} from '../components/app/app';
 import {AuthorizationStatus} from '../const';
+import {toSignInScreen} from '../utils/common';
 
 function PropertyScreen(): JSX.Element {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <div className="page">
@@ -44,7 +47,11 @@ function PropertyScreen(): JSX.Element {
                 <h1 className="property__name">
                   Beautiful &amp; luxurious studio at great location
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button
+                  className="property__bookmark-button button"
+                  type="button"
+                  onClick={() => toSignInScreen(auth, navigate)}
+                >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>

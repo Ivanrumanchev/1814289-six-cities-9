@@ -48,7 +48,7 @@ function App(AppScreenProps: AppScreenProps): JSX.Element {
             }
           />
           <Route
-            path={AppRoute.Property}
+            path={AppRoute.PropertyId}
             element={<PropertyScreen />}
           />
           <Route
