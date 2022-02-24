@@ -1,4 +1,6 @@
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
+
+type Evt = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
 
 const ratings = [
   'perfect',
@@ -9,6 +11,16 @@ const ratings = [
 ];
 
 function NewReview(): JSX.Element {
+  const [formData, setFormData] = useState({
+    rating: '',
+    review: '',
+  });
+
+  const fieldChangeHandle = (evt: Evt) => {
+    const {name, value} = evt.target;
+    setFormData({...formData, [name]: value});
+  };
+
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -17,9 +29,11 @@ function NewReview(): JSX.Element {
           <Fragment key={rating}>
             <input
               className="form__rating-input visually-hidden"
-              name="rating" value={Math.abs(index - ratings.length)}
+              name="rating"
               id={`${Math.abs(index - ratings.length)}-stars`}
               type="radio"
+              value={Math.abs(index - ratings.length)}
+              onChange={fieldChangeHandle}
             />
             <label
               htmlFor={`${Math.abs(index - ratings.length)}-stars`}
@@ -38,6 +52,8 @@ function NewReview(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={formData.review}
+        onChange={fieldChangeHandle}
       >
       </textarea>
       <div className="reviews__button-wrapper">

@@ -7,24 +7,32 @@ import FavoritesScreen from '../../pages/favorites-screen';
 import NotFoundScreen from '../../pages/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {Offers} from '../../types/offers';
+import {Reviews} from '../../types/reviews';
 
 type AppScreenProps = {
-  placesCount: number;
+  offers: Offers;
+  reviews: Reviews;
 }
 
-const authorization = AuthorizationStatus.NoAuth;
+const authorization = AuthorizationStatus.Auth;
 export const AuthContext = React.createContext(AuthorizationStatus.NoAuth);
 
 
-function App(AppScreenProps: AppScreenProps): JSX.Element {
+function App({offers, reviews}: AppScreenProps): JSX.Element {
   return (
     <AuthContext.Provider value={authorization}>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<MainScreen placesCount={AppScreenProps.placesCount} />}
-          />
+            element={
+              <MainScreen
+                offers={offers}
+              />
+            }
+          >
+          </Route>
           <Route
             path={AppRoute.Login}
             element={
@@ -43,13 +51,18 @@ function App(AppScreenProps: AppScreenProps): JSX.Element {
                 authorizationStatus={authorization}
                 targetRoute={AppRoute.Login}
               >
-                <FavoritesScreen />
+                <FavoritesScreen offers={offers} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.PropertyId}
-            element={<PropertyScreen />}
+            element={
+              <PropertyScreen
+                offers={offers}
+                reviews={reviews}
+              />
+            }
           />
           <Route
             path="*"
