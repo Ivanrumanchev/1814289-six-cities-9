@@ -4,10 +4,10 @@ import {filter} from '../utils/filter';
 import {FilterType} from '../const';
 import Header from '../components/common/header/header';
 import CardsList from '../components/main-screen/cards-list';
-import {Offers} from '../types/offers';
+import {OfferDTO} from '../types/offer';
 
 type MainScreenProps = {
-  offers: Offers;
+  offers: OfferDTO[];
 }
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
@@ -15,7 +15,8 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
   const activeCity = searchParams.get('city');
   const navigate = useNavigate();
 
-  let filteredOffers = filter[FilterType.PARIS](offers);
+  const filteredOffers = filter(offers);
+  let offersOfCity = filteredOffers[FilterType.PARIS];
 
   useEffect(() => {
     if (!activeCity) {
@@ -25,7 +26,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
 
   if (activeCity) {
     const nameOfCity = Object.values(FilterType).filter((type) => activeCity === type)[0];
-    filteredOffers = filter[nameOfCity](offers);
+    offersOfCity = filteredOffers[nameOfCity];
   }
 
   return (
@@ -53,7 +54,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
         </div>
 
         <CardsList
-          offers={filteredOffers}
+          offers={offersOfCity}
           city={activeCity ? activeCity : FilterType.PARIS}
         />
       </main>

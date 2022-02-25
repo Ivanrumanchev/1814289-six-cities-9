@@ -1,6 +1,6 @@
-import {Offers} from '../types/offers';
+import {OfferDTO} from '../types/offer';
 
-export const offers: Offers = [
+export const offers: OfferDTO[] = [
   {
     'city': {
       'name': 'Cologne',

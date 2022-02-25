@@ -7,13 +7,13 @@ import {useContext} from 'react';
 import {AuthContext} from '../components/app/app';
 import {AuthorizationStatus} from '../const';
 import {toSignInScreen, getRatingRate, capitalize} from '../utils/common';
-import {Offers} from '../types/offers';
-import {Reviews} from '../types/reviews';
+import {OfferDTO} from '../types/offer';
+import {ReviewDTO} from '../types/review';
 import {AppRoute} from '../const';
 
 type PropertyScreenProps = {
-  offers: Offers;
-  reviews: Reviews;
+  offers: OfferDTO[];
+  reviews: ReviewDTO[];
 }
 
 const QUANTITY_REVIEWS = 10;

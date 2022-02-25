@@ -1,10 +1,10 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {Offer} from '../../types/offers';
+import {OfferDTO} from '../../types/offer';
 import {getRatingRate, capitalize} from '../../utils/common';
 
 type FavoriteItemProps = {
-  offer: Offer;
+  offer: OfferDTO;
 }
 
 function FavoriteItem({offer}: FavoriteItemProps): JSX.Element {
@@ -18,7 +18,7 @@ function FavoriteItem({offer}: FavoriteItemProps): JSX.Element {
         </div>}
 
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={AppRoute.Property + id}>
+        <Link to={`${AppRoute.Property}${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -52,7 +52,7 @@ function FavoriteItem({offer}: FavoriteItemProps): JSX.Element {
         </div>
 
         <h2 className="place-card__name">
-          <Link to={AppRoute.Property + id}>{title}</Link>
+          <Link to={`${AppRoute.Property}${id}`}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{capitalize(type)}</p>

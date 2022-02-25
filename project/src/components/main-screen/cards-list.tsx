@@ -1,22 +1,20 @@
 import {useState} from 'react';
 import Card from '../card/card';
-import {Offers} from '../../types/offers';
+import {OfferDTO} from '../../types/offer';
 
 type CardsListProps = {
-  offers: Offers;
+  offers: OfferDTO[];
   city: string;
 }
 
 type MouseEnterHandle = (id: number) => void;
 
 function CardsList({offers, city}: CardsListProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState(0);
+  const [, setActiveCard] = useState(0);
 
   const cardMouseEnterHandler: MouseEnterHandle = (id) => {
     setActiveCard(id);
   };
-  // eslint-disable-next-line no-console
-  console.log(activeCard);
 
   return (
     <div className="cities">
@@ -45,7 +43,13 @@ function CardsList({offers, city}: CardsListProps): JSX.Element {
           </form>
 
           <div className="cities__places-list places__list tabs__content">
-            {offers.map((offer) => <Card key={offer.id} offer={offer} mouseEnterHandle={cardMouseEnterHandler} />)}
+            {offers.map((offer) => (
+              <Card
+                key={offer.id}
+                offer={offer}
+                mouseEnterHandle={cardMouseEnterHandler}
+              />
+            ))}
           </div>
         </section>
 

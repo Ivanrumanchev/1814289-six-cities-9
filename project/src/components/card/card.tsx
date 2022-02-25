@@ -3,12 +3,12 @@ import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {AuthContext} from '../app/app';
 import {getRatingRate, toSignInScreen, capitalize} from '../../utils/common';
-import {Offer} from '../../types/offers';
+import {OfferDTO} from '../../types/offer';
 
 type MouseEnterHandle = (id: number) => void;
 
 type CardProps = {
-  offer: Offer;
+  offer: OfferDTO;
   mouseEnterHandle: MouseEnterHandle;
 }
 
@@ -26,7 +26,7 @@ function Card({offer, mouseEnterHandle}: CardProps): JSX.Element {
         </div>}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={AppRoute.Property + id}>
+        <Link to={`${AppRoute.Property}${id}`}>
           <img className="place-card__image"
             src={previewImage}
             width="260"
@@ -63,7 +63,7 @@ function Card({offer, mouseEnterHandle}: CardProps): JSX.Element {
         </div>
 
         <h2 className="place-card__name">
-          <Link to={AppRoute.Property + id}>{title}</Link>
+          <Link to={`${AppRoute.Property}${id}`}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{capitalize(type)}</p>

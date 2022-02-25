@@ -2,11 +2,11 @@ import {useContext} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {AuthContext} from '../app/app';
 import {AppRoute} from '../../const';
-import {Offer} from '../../types/offers';
+import {OfferDTO} from '../../types/offer';
 import {getRatingRate, toSignInScreen, capitalize} from '../../utils/common';
 
 type nearPlaceProps = {
-  place: Offer;
+  place: OfferDTO;
 }
 
 function NearPlaceItem({place}: nearPlaceProps): JSX.Element {
@@ -23,7 +23,7 @@ function NearPlaceItem({place}: nearPlaceProps): JSX.Element {
       </div>}
 
       <div className="near-places__image-wrapper place-card__image-wrapper">
-        <Link to={AppRoute.Property + id}>
+        <Link to={`${AppRoute.Property}${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -61,7 +61,7 @@ function NearPlaceItem({place}: nearPlaceProps): JSX.Element {
         </div>
 
         <h2 className="place-card__name">
-          <Link to={AppRoute.Property + id}>{title}</Link>
+          <Link to={`${AppRoute.Property}${id}`}>{title}</Link>
         </h2>
 
         <p className="place-card__type">{capitalize(type)}</p>

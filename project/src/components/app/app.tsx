@@ -7,12 +7,12 @@ import FavoritesScreen from '../../pages/favorites-screen';
 import NotFoundScreen from '../../pages/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {Offers} from '../../types/offers';
-import {Reviews} from '../../types/reviews';
+import {OfferDTO} from '../../types/offer';
+import {ReviewDTO} from '../../types/review';
 
 type AppScreenProps = {
-  offers: Offers;
-  reviews: Reviews;
+  offers: OfferDTO[];
+  reviews: ReviewDTO[];
 }
 
 const authorization = AuthorizationStatus.Auth;

@@ -4,13 +4,14 @@ import LocationItem from '../components/favorites-screen/location-item';
 import {filter} from '../utils/filter';
 import {FilterType} from '../const';
 
-import {Offers} from '../types/offers';
+import {OfferDTO} from '../types/offer';
 
 type FavoritesScreenProps = {
-  offers: Offers;
+  offers: OfferDTO[];
 }
 
 function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
+  const filteredOffersReduce = filter(offers);
 
   return (
     <div className="page">
@@ -23,7 +24,7 @@ function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
 
             <ul className="favorites__list">
               {Object.values(FilterType).map((city) => {
-                const filteredOffers = filter[city](offers);
+                const filteredOffers = filteredOffersReduce[city];
 
                 if (filteredOffers.length === 0) {
                   return null;

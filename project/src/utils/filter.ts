@@ -1,20 +1,32 @@
 import {FilterType} from '../const';
-import {Offers, Offer} from '../types/offers';
+import {OfferDTO} from '../types/offer';
 
-type Filter = {
-  [FilterType.PARIS]: (offers: Offers) => Offer[];
-  [FilterType.COLOGNE]: (offers: Offers) => Offer[];
-  [FilterType.BRUSSELS]: (offers: Offers) => Offer[];
-  [FilterType.AMSTERDAM]: (offers: Offers) => Offer[];
-  [FilterType.HAMBURG]: (offers: Offers) => Offer[];
-  [FilterType.DUSSELDORF]: (offers: Offers) => Offer[];
+type FilteredCities = {
+  [FilterType.PARIS]: OfferDTO[];
+  [FilterType.COLOGNE]: OfferDTO[];
+  [FilterType.BRUSSELS]: OfferDTO[];
+  [FilterType.AMSTERDAM]: OfferDTO[];
+  [FilterType.HAMBURG]: OfferDTO[];
+  [FilterType.DUSSELDORF]: OfferDTO[];
 }
 
-export const filter: Filter = {
-  [FilterType.PARIS]: (offers: Offers) => offers.filter((offer) => offer.city.name === FilterType.PARIS),
-  [FilterType.COLOGNE]: (offers: Offers) => offers.filter((offer) => offer.city.name === FilterType.COLOGNE),
-  [FilterType.BRUSSELS]: (offers: Offers) => offers.filter((offer) => offer.city.name === FilterType.BRUSSELS),
-  [FilterType.AMSTERDAM]: (offers: Offers) => offers.filter((offer) => offer.city.name === FilterType.AMSTERDAM),
-  [FilterType.HAMBURG]: (offers: Offers) => offers.filter((offer) => offer.city.name === FilterType.HAMBURG),
-  [FilterType.DUSSELDORF]: (offers: Offers) => offers.filter((offer) => offer.city.name === FilterType.DUSSELDORF),
-};
+export const filter = (offers: OfferDTO[]): FilteredCities =>
+  offers.reduce<FilteredCities>((filteredCitiesResult, currentOffer) => {
+    const currentCity = currentOffer.city.name;
+
+    Object.values(FilterType).forEach((city) => {
+      if (currentCity === city) {
+        filteredCitiesResult[city].push(currentOffer);
+      }
+    });
+
+    return filteredCitiesResult;
+  }, {
+    [FilterType.PARIS]: [],
+    [FilterType.COLOGNE]: [],
+    [FilterType.BRUSSELS]: [],
+    [FilterType.AMSTERDAM]: [],
+    [FilterType.HAMBURG]: [],
+    [FilterType.DUSSELDORF]: [],
+  } as FilteredCities);
+

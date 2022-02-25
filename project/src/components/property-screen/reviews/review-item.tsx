@@ -1,8 +1,8 @@
-import {Review} from '../../../types/reviews';
+import {ReviewDTO} from '../../../types/review';
 import {getFormattedAttrDate, getFormattedDate, getRatingRate} from '../../../utils/common';
 
 type ReviewProps = {
-  review: Review;
+  review: ReviewDTO;
 }
 
 function ReviewItem({review}: ReviewProps): JSX.Element {

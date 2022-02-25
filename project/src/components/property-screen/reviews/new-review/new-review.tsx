@@ -1,7 +1,5 @@
 import {Fragment, useState} from 'react';
 
-type Evt = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
-
 const ratings = [
   'perfect',
   'good',
@@ -11,14 +9,15 @@ const ratings = [
 ];
 
 function NewReview(): JSX.Element {
-  const [formData, setFormData] = useState({
-    rating: '',
-    review: '',
-  });
+  const [, setRatingState] = useState('');
+  const [reviewState, setReviewState] = useState('');
 
-  const fieldChangeHandle = (evt: Evt) => {
-    const {name, value} = evt.target;
-    setFormData({...formData, [name]: value});
+  const ratingChangeHandle = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setRatingState(evt.target.value);
+  };
+
+  const reviewChangeHandle = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReviewState(evt.target.value);
   };
 
   return (
@@ -33,7 +32,7 @@ function NewReview(): JSX.Element {
               id={`${Math.abs(index - ratings.length)}-stars`}
               type="radio"
               value={Math.abs(index - ratings.length)}
-              onChange={fieldChangeHandle}
+              onChange={ratingChangeHandle}
             />
             <label
               htmlFor={`${Math.abs(index - ratings.length)}-stars`}
@@ -52,8 +51,8 @@ function NewReview(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={formData.review}
-        onChange={fieldChangeHandle}
+        value={reviewState}
+        onChange={reviewChangeHandle}
       >
       </textarea>
       <div className="reviews__button-wrapper">
