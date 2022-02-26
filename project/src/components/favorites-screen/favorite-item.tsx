@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {OfferDTO} from '../../types/offer';
-import {getRatingRate, capitalize} from '../../utils/common';
+import {getRatingRate, capitalizeFirstLetter} from '../../utils/common';
 
 type FavoriteItemProps = {
   offer: OfferDTO;
@@ -55,7 +55,7 @@ function FavoriteItem({offer}: FavoriteItemProps): JSX.Element {
           <Link to={`${AppRoute.Property}${id}`}>{title}</Link>
         </h2>
 
-        <p className="place-card__type">{capitalize(type)}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

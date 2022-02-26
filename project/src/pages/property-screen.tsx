@@ -6,7 +6,7 @@ import NearPlaceItem from '../components/property-screen/near-place-item';
 import {useContext} from 'react';
 import {AuthContext} from '../components/app/app';
 import {AuthorizationStatus} from '../const';
-import {toSignInScreen, getRatingRate, capitalize} from '../utils/common';
+import {toSignInScreen, getRatingRate, capitalizeFirstLetter} from '../utils/common';
 import {OfferDTO} from '../types/offer';
 import {ReviewDTO} from '../types/review';
 import {AppRoute} from '../const';
@@ -92,7 +92,7 @@ function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
 
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {capitalize(type)}
+                  {capitalizeFirstLetter(type)}
                 </li>
 
                 <li className="property__feature property__feature--bedrooms">

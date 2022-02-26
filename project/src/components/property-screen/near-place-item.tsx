@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {AuthContext} from '../app/app';
 import {AppRoute} from '../../const';
 import {OfferDTO} from '../../types/offer';
-import {getRatingRate, toSignInScreen, capitalize} from '../../utils/common';
+import {getRatingRate, toSignInScreen, capitalizeFirstLetter} from '../../utils/common';
 
 type nearPlaceProps = {
   place: OfferDTO;
@@ -64,7 +64,7 @@ function NearPlaceItem({place}: nearPlaceProps): JSX.Element {
           <Link to={`${AppRoute.Property}${id}`}>{title}</Link>
         </h2>
 
-        <p className="place-card__type">{capitalize(type)}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

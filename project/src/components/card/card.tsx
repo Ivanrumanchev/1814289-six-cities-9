@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {AuthContext} from '../app/app';
-import {getRatingRate, toSignInScreen, capitalize} from '../../utils/common';
+import {getRatingRate, toSignInScreen, capitalizeFirstLetter} from '../../utils/common';
 import {OfferDTO} from '../../types/offer';
 
 type MouseEnterHandle = (id: number) => void;
@@ -66,7 +66,7 @@ function Card({offer, mouseEnterHandle}: CardProps): JSX.Element {
           <Link to={`${AppRoute.Property}${id}`}>{title}</Link>
         </h2>
 
-        <p className="place-card__type">{capitalize(type)}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

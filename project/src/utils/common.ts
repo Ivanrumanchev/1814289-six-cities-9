@@ -7,7 +7,7 @@ export const toSignInScreen = (auth : string, navigate: NavigateFunction) => aut
 
 export const getRatingRate = (rating: number) => `${Math.round(rating) * RATING_RATIO}%`;
 
-export const capitalize = (str: string) => {
+export const capitalizeFirstLetter = (str: string) => {
   if (!str) {
     return str;
   }

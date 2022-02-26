@@ -1,14 +1,7 @@
 import {FilterType} from '../const';
 import {OfferDTO} from '../types/offer';
 
-type FilteredCities = {
-  [FilterType.PARIS]: OfferDTO[];
-  [FilterType.COLOGNE]: OfferDTO[];
-  [FilterType.BRUSSELS]: OfferDTO[];
-  [FilterType.AMSTERDAM]: OfferDTO[];
-  [FilterType.HAMBURG]: OfferDTO[];
-  [FilterType.DUSSELDORF]: OfferDTO[];
-}
+type FilteredCities = {[keyof in FilterType]: OfferDTO[]};
 
 export const filter = (offers: OfferDTO[]): FilteredCities =>
   offers.reduce<FilteredCities>((filteredCitiesResult, currentOffer) => {
