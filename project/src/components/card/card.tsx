@@ -5,7 +5,7 @@ import {AuthContext} from '../app/app';
 import {getRatingRate, toSignInScreen, capitalizeFirstLetter} from '../../utils/common';
 import {OfferDTO} from '../../types/offer';
 
-type MouseEnterHandle = (id: number) => void;
+type MouseEnterHandle = (offer: OfferDTO) => void;
 
 type CardProps = {
   offer: OfferDTO;
@@ -19,7 +19,7 @@ function Card({offer, mouseEnterHandle}: CardProps): JSX.Element {
   const navigate = useNavigate();
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={() => mouseEnterHandle(id)}>
+    <article className="cities__place-card place-card" onMouseEnter={() => mouseEnterHandle(offer)}>
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>

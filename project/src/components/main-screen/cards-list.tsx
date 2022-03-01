@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import Card from '../card/card';
+import Map from '../common/map/map';
 import {OfferDTO} from '../../types/offer';
 
 type CardsListProps = {
@@ -7,13 +8,13 @@ type CardsListProps = {
   city: string;
 }
 
-type MouseEnterHandle = (id: number) => void;
+type MouseEnterHandle = (offer: OfferDTO) => void;
 
 function CardsList({offers, city}: CardsListProps): JSX.Element {
-  const [, setActiveCard] = useState(0);
+  const [activeCard, setActiveCard] = useState<null | OfferDTO>(null);
 
-  const cardMouseEnterHandler: MouseEnterHandle = (id) => {
-    setActiveCard(id);
+  const cardMouseEnterHandler: MouseEnterHandle = (offer) => {
+    setActiveCard(offer);
   };
 
   return (
@@ -53,9 +54,11 @@ function CardsList({offers, city}: CardsListProps): JSX.Element {
           </div>
         </section>
 
-        <div className="cities__right-section">
-          <section className="cities__map map"></section>
-        </div>
+        <Map
+          offers={offers}
+          city={city}
+          activeCard={activeCard}
+        />
       </div>
     </div>
 
