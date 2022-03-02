@@ -1,9 +1,10 @@
 import {OfferDTO} from '../types/offer';
+import {FilterType} from '../const';
 
 export const offers: OfferDTO[] = [
   {
     'city': {
-      'name': 'Cologne',
+      'name': FilterType.COLOGNE,
       'location': {
         'latitude': 50.938361,
         'longitude': 6.959974,
@@ -63,7 +64,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Paris',
+      'name': FilterType.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -118,7 +119,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Hamburg',
+      'name': FilterType.HAMBURG,
       'location': {
         'latitude': 53.550341,
         'longitude': 10.000654,
@@ -175,7 +176,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Brussels',
+      'name': FilterType.BRUSSELS,
       'location': {
         'latitude': 50.846557,
         'longitude': 4.351697,
@@ -228,7 +229,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Amsterdam',
+      'name': FilterType.AMSTERDAM,
       'location': {
         'latitude': 52.37454,
         'longitude': 4.897976,
@@ -283,7 +284,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Cologne',
+      'name': FilterType.COLOGNE,
       'location': {
         'latitude': 50.938361,
         'longitude': 6.959974,
@@ -336,7 +337,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Dusseldorf',
+      'name': FilterType.DUSSELDORF,
       'location': {
         'latitude': 51.225402,
         'longitude': 6.776314,
@@ -392,7 +393,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Brussels',
+      'name': FilterType.BRUSSELS,
       'location': {
         'latitude': 50.846557,
         'longitude': 4.351697,
@@ -451,7 +452,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Cologne',
+      'name': FilterType.COLOGNE,
       'location': {
         'latitude': 50.938361,
         'longitude': 6.959974,
@@ -505,7 +506,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Brussels',
+      'name': FilterType.BRUSSELS,
       'location': {
         'latitude': 50.846557,
         'longitude': 4.351697,
@@ -566,7 +567,7 @@ export const offers: OfferDTO[] = [
   },
   {
     'city': {
-      'name': 'Paris',
+      'name': FilterType.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,

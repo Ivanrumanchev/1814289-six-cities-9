@@ -1,27 +1,24 @@
-import {useNavigate, useParams, Navigate} from 'react-router-dom';
+import {useParams, Navigate} from 'react-router-dom';
 import Header from '../components/common/header/header';
-import NewReview from '../components/property-screen/reviews/new-review/new-review';
-import ReviewItem from '../components/property-screen/reviews/review-item';
-import NearPlaceItem from '../components/property-screen/near-place-item';
-import {useContext} from 'react';
-import {AuthContext} from '../components/app/app';
-import {AuthorizationStatus} from '../const';
-import {toSignInScreen, getRatingRate, capitalizeFirstLetter} from '../utils/common';
+import Map from '../components/common/map/map';
+import ReviewsList from '../components/property-screen/reviews-list/reviews-list';
+import NearPlacesList from '../components/property-screen/near-places-list/near-places-list';
+import FavoriteButton from '../components/common/favorite-button/favorite-button';
+import Gallery from '../components/property-screen/gallery/gallery';
+import Rating from '../components/common/rating/rating';
 import {OfferDTO} from '../types/offer';
 import {ReviewDTO} from '../types/review';
-import {AppRoute} from '../const';
+import {TypeScreen, AppRoute, RatingType} from '../const';
+import {capitalizeFirstLetter} from '../utils/common';
 
 type PropertyScreenProps = {
   offers: OfferDTO[];
   reviews: ReviewDTO[];
 }
 
-const QUANTITY_REVIEWS = 10;
 const QUANTITY_NEAR_PLACES = 3;
 
 function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate();
   const params = useParams();
 
   if (!params.id) {
@@ -35,10 +32,12 @@ function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
     return <Navigate to={AppRoute.NotFound} replace />;
   }
 
-  const {images,isPremium, title, isFavorite, rating, type, bedrooms, maxAdults, price, goods, host, description} = room;
-  const {name, isPro, avatarUrl} = host;
+  const nearPlaces = offers
+    .filter((offer) => offer.city.name === room.city.name)
+    .slice(0, QUANTITY_NEAR_PLACES);
 
-  const nearPlaces=offers.slice(0, QUANTITY_NEAR_PLACES);
+  const {isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = room;
+  const {name, isPro, avatarUrl} = host;
 
   return (
     <div className="page">
@@ -46,15 +45,7 @@ function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
 
       <main className="page__main page__main--property">
         <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {images.map((image) => (
-                <div className="property__image-wrapper" key={image}>
-                  <img className="property__image" src={image} alt="Room" />
-                </div>
-              ))}
-            </div>
-          </div>
+          <Gallery room={room} />
 
           <div className="property__container container">
             <div className="property__wrapper">
@@ -68,27 +59,16 @@ function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
                   {title}
                 </h1>
 
-                <button
-                  className={`property__bookmark-button button ${isFavorite ? 'property__bookmark-button--active' : ''}`}
-                  type="button"
-                  onClick={() => toSignInScreen(auth, navigate)}
-                >
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton
+                  offer={room}
+                  typeScreenProp={TypeScreen.Properties}
+                />
               </div>
 
-              <div className="property__rating rating">
-                <div className="property__stars rating__stars">
-                  <span style={{width: getRatingRate(rating)}}></span>
-
-                  <span className="visually-hidden">Rating</span>
-                </div>
-
-                <span className="property__rating-value rating__value">{rating}</span>
-              </div>
+              <Rating
+                rating={rating}
+                ratingType={RatingType.Property}
+              />
 
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
@@ -147,40 +127,19 @@ function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
                 </div>
               </div>
 
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-
-                <ul className="reviews__list">
-                  {reviews.slice(0, QUANTITY_REVIEWS).map((review) => (
-                    <ReviewItem
-                      key={review.id}
-                      review={review}
-                    />
-                  ))}
-                </ul>
-
-                {auth === AuthorizationStatus.Auth && <NewReview />}
-              </section>
+              <ReviewsList reviews={reviews}/>
             </div>
           </div>
 
-          <section className="property__map map"></section>
+          <Map
+            offers={nearPlaces}
+            city={room.city.name}
+            activeCard={room}
+            typeScreenProp={TypeScreen.Properties}
+          />
         </section>
 
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-
-            <div className="near-places__list places__list">
-              {nearPlaces.map((nearPlace) => (
-                <NearPlaceItem
-                  key={nearPlace.id}
-                  place={nearPlace}
-                />
-              ))}
-            </div>
-          </section>
-        </div>
+        <NearPlacesList nearPlaces={nearPlaces} />
       </main>
     </div>
   );

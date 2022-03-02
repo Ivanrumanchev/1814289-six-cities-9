@@ -1,5 +1,7 @@
+import Rating from '../../common/rating/rating';
 import {ReviewDTO} from '../../../types/review';
-import {getFormattedAttrDate, getFormattedDate, getRatingRate} from '../../../utils/common';
+import {RatingType} from '../../../const';
+import {getFormattedAttrDate, getFormattedDate} from '../../../utils/common';
 
 type ReviewProps = {
   review: ReviewDTO;
@@ -26,12 +28,10 @@ function ReviewItem({review}: ReviewProps): JSX.Element {
       </div>
 
       <div className="reviews__info">
-        <div className="reviews__rating rating">
-          <div className="reviews__stars rating__stars">
-            <span style={{width: getRatingRate(rating)}}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <Rating
+          rating={rating}
+          ratingType={RatingType.Reviews}
+        />
 
         <p className="reviews__text">
           {comment}

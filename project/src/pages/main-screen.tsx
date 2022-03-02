@@ -1,10 +1,10 @@
 import {NavLink, useSearchParams, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
-import {filter} from '../utils/filter';
-import {FilterType} from '../const';
 import Header from '../components/common/header/header';
-import CardsList from '../components/main-screen/cards-list';
+import CardsList from '../components/main-screen/cards-list/cards-list';
 import {OfferDTO} from '../types/offer';
+import {FilterType} from '../const';
+import {filter} from '../utils/filter';
 
 type MainScreenProps = {
   offers: OfferDTO[];
@@ -16,7 +16,8 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
   const navigate = useNavigate();
 
   const filteredOffers = filter(offers);
-  let offersOfCity = filteredOffers[FilterType.PARIS];
+  let nameOfCity = FilterType.PARIS;
+  let offersOfCity = filteredOffers[nameOfCity];
 
   useEffect(() => {
     if (!activeCity) {
@@ -25,7 +26,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
   });
 
   if (activeCity) {
-    const nameOfCity = Object.values(FilterType).filter((type) => activeCity === type)[0];
+    nameOfCity = Object.values(FilterType).filter((type) => activeCity === type)[0];
     offersOfCity = filteredOffers[nameOfCity];
   }
 
@@ -42,7 +43,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
               {Object.values(FilterType).map((city) => (
                 <li className="locations__item" key={city}>
                   <NavLink
-                    className={() => `locations__item-link tabs__item${activeCity === city ? ' tabs__item--active' : ''}`}
+                    className={() => `locations__item-link tabs__item${nameOfCity === city ? ' tabs__item--active' : ''}`}
                     to={`?city=${city}`}
                   >
                     <span>{city}</span>
@@ -55,7 +56,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
 
         <CardsList
           offers={offersOfCity}
-          city={activeCity ? activeCity : FilterType.PARIS}
+          city={nameOfCity ? nameOfCity : FilterType.PARIS}
         />
       </main>
     </div>

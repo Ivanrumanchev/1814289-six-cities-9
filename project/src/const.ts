@@ -1,4 +1,4 @@
-import {City} from './types/offer';
+import {CitiesLocation} from './types/offer';
 
 export enum AppRoute {
   Login = '/login',
@@ -22,10 +22,6 @@ export enum FilterType {
   AMSTERDAM = 'Amsterdam',
   HAMBURG = 'Hamburg',
   DUSSELDORF = 'Dusseldorf',
-}
-
-type CitiesLocation = {
-  [keyof in FilterType]: City;
 }
 
 export const citiesLocation: CitiesLocation = {
@@ -79,8 +75,13 @@ export const citiesLocation: CitiesLocation = {
   },
 };
 
-export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+export enum TypeScreen {
+  Main = 'main',
+  Properties = 'properties',
+}
 
-export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+export enum RatingType {
+  Place = 'place-card',
+  Reviews = 'reviews',
+  Property = 'property',
+}

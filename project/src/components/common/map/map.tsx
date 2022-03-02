@@ -1,33 +1,26 @@
 import {useRef, useEffect} from 'react';
-import {Icon, Marker} from 'leaflet';
+import {Marker} from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import useMap from '../../../hooks/use-map';
 import {OfferDTO} from '../../../types/offer';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, citiesLocation, FilterType} from '../../../const';
-import 'leaflet/dist/leaflet.css';
+import {getIcon} from '../../../utils/common';
+import {citiesLocation, FilterType, TypeScreen} from '../../../const';
 
 type MapProps = {
   offers: OfferDTO[];
-  city: string;
+  city: FilterType;
   activeCard: OfferDTO | null;
+  typeScreenProp: string;
 };
 
-const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
-const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+const DURATION_FLY = 2.5;
+const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, activeCard} = props;
+  const {city, offers, activeCard, typeScreenProp} = props;
 
-  const nameOfCity = Object.values(FilterType).filter((type) => city === type)[0];
-  const cityLocation = citiesLocation[nameOfCity];
+  const cityLocation = citiesLocation[city];
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
@@ -38,7 +31,7 @@ function Map(props: MapProps): JSX.Element {
         [cityLocation.location.latitude, cityLocation.location.longitude],
         cityLocation.location.zoom,
         { animate: true,
-          duration: 2.5 },
+          duration: DURATION_FLY },
       );
     }
   }, [map, cityLocation]);
@@ -54,8 +47,8 @@ function Map(props: MapProps): JSX.Element {
         marker
           .setIcon(
             activeCard !== null && offer.id === activeCard.id
-              ? currentCustomIcon
-              : defaultCustomIcon,
+              ? getIcon(URL_MARKER_CURRENT)
+              : getIcon(URL_MARKER_DEFAULT),
           )
           .addTo(map);
       });
@@ -64,10 +57,11 @@ function Map(props: MapProps): JSX.Element {
 
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map" ref={mapRef}>
-      </section>
-    </div>
+    <section
+      className={`${typeScreenProp === TypeScreen.Main ? 'cities' : 'property'}__map map`}
+      ref={mapRef}
+    >
+    </section>
   );
 }
 

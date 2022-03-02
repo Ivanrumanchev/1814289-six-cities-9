@@ -1,21 +1,16 @@
 import {useState} from 'react';
-import Card from '../card/card';
-import Map from '../common/map/map';
-import {OfferDTO} from '../../types/offer';
+import Card from '../../common/card/card';
+import Map from '../../common/map/map';
+import {OfferDTO} from '../../../types/offer';
+import {FilterType, TypeScreen} from '../../../const';
 
 type CardsListProps = {
   offers: OfferDTO[];
-  city: string;
+  city: FilterType;
 }
-
-type MouseEnterHandle = (offer: OfferDTO) => void;
 
 function CardsList({offers, city}: CardsListProps): JSX.Element {
   const [activeCard, setActiveCard] = useState<null | OfferDTO>(null);
-
-  const cardMouseEnterHandler: MouseEnterHandle = (offer) => {
-    setActiveCard(offer);
-  };
 
   return (
     <div className="cities">
@@ -48,17 +43,21 @@ function CardsList({offers, city}: CardsListProps): JSX.Element {
               <Card
                 key={offer.id}
                 offer={offer}
-                mouseEnterHandle={cardMouseEnterHandler}
+                typeCardProp={TypeScreen.Main}
+                setActiveCard={setActiveCard}
               />
             ))}
           </div>
         </section>
 
-        <Map
-          offers={offers}
-          city={city}
-          activeCard={activeCard}
-        />
+        <div className="cities__right-section">
+          <Map
+            offers={offers}
+            city={city}
+            activeCard={activeCard}
+            typeScreenProp={TypeScreen.Main}
+          />
+        </div>
       </div>
     </div>
 
