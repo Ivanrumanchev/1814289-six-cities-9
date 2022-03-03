@@ -1,8 +1,7 @@
 import {useContext} from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import {AppRoute} from '../../../../const';
-import {AuthContext} from '../../../app/app';
-import {AuthorizationStatus} from '../../../../const';
+import {AuthContext} from '../../app/app';
+import {AppRoute, AuthorizationStatus} from '../../../const';
 
 function HeaderLogin(): JSX.Element {
   const auth = useContext(AuthContext);

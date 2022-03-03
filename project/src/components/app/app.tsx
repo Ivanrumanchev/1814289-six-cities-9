@@ -4,7 +4,7 @@ import MainScreen from '../../pages/main-screen';
 import LoginScreen from '../../pages/login-screen';
 import PropertyScreen from '../../pages/property-screen';
 import FavoritesScreen from '../../pages/favorites-screen';
-import NotFoundScreen from '../../pages/not-found-screen';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {OfferDTO} from '../../types/offer';

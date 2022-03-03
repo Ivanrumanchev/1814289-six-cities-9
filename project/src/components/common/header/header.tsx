@@ -1,5 +1,5 @@
 import Logo from '../../common/logo/logo';
-import HeaderLogin from './header-login/header-login';
+import HeaderLogin from '../header-login/header-login';
 
 type HeaderProps = {
   isLogin?: boolean;

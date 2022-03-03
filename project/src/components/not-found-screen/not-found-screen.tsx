@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../const';
+import './not-found-screen.css';
+import {AppRoute} from '../../const';
 
 const NotFoundHeaderStyle: React.CSSProperties = {
   display: 'block',

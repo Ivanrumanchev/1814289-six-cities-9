@@ -1,5 +1,5 @@
-import {FilterType} from '../const';
 import {OfferDTO} from '../types/offer';
+import {FilterType} from '../const';
 
 type FilteredCities = {[keyof in FilterType]: OfferDTO[]};
 

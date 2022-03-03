@@ -1,9 +1,7 @@
-import {AuthorizationStatus} from '../const';
-import {NavigateFunction} from 'react-router-dom';
+import {Icon} from 'leaflet';
 
+const ICON_SIZE = 40;
 const RATING_RATIO = 20;
-
-export const toSignInScreen = (auth : string, navigate: NavigateFunction) => auth === AuthorizationStatus.NoAuth ? navigate('/login') : '';
 
 export const getRatingRate = (rating: number) => `${Math.round(rating) * RATING_RATIO}%`;
 
@@ -32,3 +30,10 @@ export const getFormattedAttrDate = (date: string) => {
 
   return formatterDateAttr.format(dateComment).toString().split('. ').join('-').slice(0, -1);
 };
+
+export const getIcon = (url: string) =>
+  new Icon({
+    iconUrl: url,
+    iconSize: [ICON_SIZE, ICON_SIZE],
+    iconAnchor: [ICON_SIZE/2, ICON_SIZE],
+  });

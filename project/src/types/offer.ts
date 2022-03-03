@@ -1,11 +1,13 @@
+import {FilterType} from '../const';
+
 type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
 
-type City = {
-  name: string;
+export type City = {
+  name: FilterType;
   location: Location;
 };
 
@@ -34,3 +36,7 @@ export type OfferDTO = {
   location: Location;
   id: number;
 };
+
+export type CitiesLocation = {
+  [keyof in FilterType]: City;
+}
