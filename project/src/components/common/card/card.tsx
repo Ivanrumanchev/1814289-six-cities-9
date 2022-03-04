@@ -5,18 +5,18 @@ import {OfferDTO} from '../../../types/offer';
 import {AppRoute, RatingType, TypeScreen} from '../../../const';
 import {capitalizeFirstLetter} from '../../../utils/common';
 
-type SetActiveCard = (offer: OfferDTO) => void;
+type OnSetActiveCard = (offer: OfferDTO) => void;
 
 type CardProps = {
   offer: OfferDTO;
   typeCardProp: string;
-  setActiveCard?: SetActiveCard;
+  onSetActiveCard?: OnSetActiveCard;
 }
 
-function Card({offer, typeCardProp, setActiveCard}: CardProps): JSX.Element {
+function Card({offer, typeCardProp, onSetActiveCard}: CardProps): JSX.Element {
   const {id, isPremium, previewImage, price, rating, title, type} = offer;
 
-  const listeners = setActiveCard ? { onMouseEnter : () => setActiveCard(offer) } : {};
+  const listeners = onSetActiveCard ? { onMouseEnter : () => onSetActiveCard(offer) } : {};
 
   return (
     <article

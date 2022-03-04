@@ -10,7 +10,7 @@ type CardsListProps = {
 }
 
 function CardsList({offers, city}: CardsListProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState<null | OfferDTO>(null);
+  const [activeCard, onSetActiveCard] = useState<null | OfferDTO>(null);
 
   return (
     <div className="cities">
@@ -44,7 +44,7 @@ function CardsList({offers, city}: CardsListProps): JSX.Element {
                 key={offer.id}
                 offer={offer}
                 typeCardProp={TypeScreen.Main}
-                setActiveCard={setActiveCard}
+                onSetActiveCard={onSetActiveCard}
               />
             ))}
           </div>

@@ -15,11 +15,11 @@ export const filter = (offers: OfferDTO[]): FilteredCities =>
 
     return filteredCitiesResult;
   }, {
-    [FilterType.PARIS]: [],
-    [FilterType.COLOGNE]: [],
-    [FilterType.BRUSSELS]: [],
-    [FilterType.AMSTERDAM]: [],
-    [FilterType.HAMBURG]: [],
-    [FilterType.DUSSELDORF]: [],
+    [FilterType.Paris]: [],
+    [FilterType.Cologne]: [],
+    [FilterType.Brussels]: [],
+    [FilterType.Amsterdam]: [],
+    [FilterType.Hamburg]: [],
+    [FilterType.Dusseldorf]: [],
   } as FilteredCities);
 
