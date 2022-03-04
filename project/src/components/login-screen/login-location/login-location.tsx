@@ -1,7 +1,8 @@
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch} from '../../../hooks/store';
 import {AppRoute, FilterType} from '../../../const';
-import {getAction, getRandomInteger} from '../../../utils/common';
+import {getRandomInteger} from '../../../utils/common';
+import {activeCity} from '../../../store/action';
 
 function LoginLocation(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ function LoginLocation(): JSX.Element {
           onClick={(evt) => {
             evt.preventDefault();
 
-            dispatch(getAction(randomCity)());
+            dispatch(activeCity({activeCity: randomCity}));
 
             navigate(AppRoute.Root);
           }}

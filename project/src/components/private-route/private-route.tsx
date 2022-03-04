@@ -12,17 +12,18 @@ function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const {children, targetRoute} = props;
 
   const authorization = useAppSelector((state) => state.auth);
+  const isAuth = authorization === AuthorizationStatus.Auth;
 
   switch (targetRoute) {
     case AppRoute.Login: return (
-      authorization === AuthorizationStatus.Auth
+      isAuth
         ? children
         : <Navigate to={targetRoute} />
     );
     case AppRoute.Root: return (
-      authorization === AuthorizationStatus.NoAuth
-        ? children
-        : <Navigate to={targetRoute} />
+      isAuth
+        ? <Navigate to={targetRoute} />
+        : children
     );
     default: return children;
   }

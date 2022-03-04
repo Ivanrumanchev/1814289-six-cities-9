@@ -1,6 +1,6 @@
 import {FilterType} from '../../../const';
-import {getAction} from '../../../utils/common';
 import {useAppDispatch} from '../../../hooks/store';
+import {activeCity} from '../../../store/action';
 
 type CitiesListProps = {
   nameOfCity: FilterType;
@@ -19,7 +19,7 @@ function CitiesList({nameOfCity}: CitiesListProps): JSX.Element {
                 className={`locations__item-link tabs__item${nameOfCity === city ? ' tabs__item--active' : ''}`}
                 onClick={(evt) => {
                   evt.preventDefault();
-                  dispatch(getAction(city)());
+                  dispatch(activeCity({activeCity: city}));
                 }}
                 href="/"
               >

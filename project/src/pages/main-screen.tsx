@@ -5,7 +5,7 @@ import {useAppSelector} from '../hooks/store';
 
 
 function MainScreen(): JSX.Element {
-  const offersOfCity = useAppSelector((state) => state.offers);
+  const offersOfCity = useAppSelector((state) => state.filteredOffers);
   const nameOfCity = useAppSelector((state) => state.city);
 
   return (
