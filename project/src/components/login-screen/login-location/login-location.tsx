@@ -20,7 +20,7 @@ function LoginLocation(): JSX.Element {
           onClick={(evt) => {
             evt.preventDefault();
 
-            dispatch(activeCity({activeCity: randomCity}));
+            dispatch(activeCity(randomCity));
 
             navigate(AppRoute.Root);
           }}

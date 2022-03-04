@@ -19,7 +19,7 @@ function CitiesList({nameOfCity}: CitiesListProps): JSX.Element {
                 className={`locations__item-link tabs__item${nameOfCity === city ? ' tabs__item--active' : ''}`}
                 onClick={(evt) => {
                   evt.preventDefault();
-                  dispatch(activeCity({activeCity: city}));
+                  dispatch(activeCity(city));
                 }}
                 href="/"
               >

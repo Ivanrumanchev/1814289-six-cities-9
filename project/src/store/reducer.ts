@@ -17,8 +17,8 @@ const initialState = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(activeCity, (state, action) => {
-      state.city = action.payload.activeCity;
-      state.filteredOffers = filteredOffers[action.payload.activeCity];
+      state.city = action.payload;
+      state.filteredOffers = filteredOffers[action.payload];
     })
     .addCase(auth, (state) => {
       state.auth = AuthorizationStatus.Auth;
