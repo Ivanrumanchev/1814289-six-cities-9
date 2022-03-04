@@ -1,21 +1,10 @@
 import {FilterType} from '../../../const';
+import {getAction} from '../../../utils/common';
 import {useAppDispatch} from '../../../hooks/store';
-import {paris, cologne, brussels, amsterdam, hamburg, dusseldorf} from '../../../store/action';
 
 type CitiesListProps = {
   nameOfCity: FilterType;
 }
-
-const getAction = (city: FilterType) => {
-  switch (city) {
-    case FilterType.Paris: return paris;
-    case FilterType.Cologne: return cologne;
-    case FilterType.Brussels: return brussels;
-    case FilterType.Amsterdam: return amsterdam;
-    case FilterType.Hamburg: return hamburg;
-    case FilterType.Dusseldorf: return dusseldorf;
-  }
-};
 
 function CitiesList({nameOfCity}: CitiesListProps): JSX.Element {
   const dispatch = useAppDispatch();

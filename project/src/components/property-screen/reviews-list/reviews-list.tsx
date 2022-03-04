@@ -1,9 +1,8 @@
-import {useContext} from 'react';
 import NewReview from '../new-review/new-review';
 import ReviewItem from '../review-item/review-item';
-import {AuthContext} from '../../../components/app/app';
 import {ReviewDTO} from '../../../types/review';
 import {AuthorizationStatus} from '../../../const';
+import {useAppSelector} from '../../../hooks/store';
 
 type ReviewsListProps = {
   reviews: ReviewDTO[];
@@ -12,7 +11,7 @@ type ReviewsListProps = {
 const QUANTITY_REVIEWS = 10;
 
 function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
-  const auth = useContext(AuthContext);
+  const authorization = useAppSelector((state) => state.auth);
 
   return (
     <section className="property__reviews reviews">
@@ -27,7 +26,7 @@ function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
         ))}
       </ul>
 
-      {auth === AuthorizationStatus.Auth && <NewReview />}
+      {authorization === AuthorizationStatus.Auth && <NewReview />}
     </section>
   );
 }

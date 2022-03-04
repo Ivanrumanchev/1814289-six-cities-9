@@ -1,4 +1,6 @@
 import {Icon} from 'leaflet';
+import {FilterType} from '../const';
+import {paris, cologne, brussels, amsterdam, hamburg, dusseldorf} from '../store/action';
 
 const ICON_SIZE = 40;
 const RATING_RATIO = 20;
@@ -37,3 +39,20 @@ export const getIcon = (url: string) =>
     iconSize: [ICON_SIZE, ICON_SIZE],
     iconAnchor: [ICON_SIZE/2, ICON_SIZE],
   });
+
+export const getAction = (city: FilterType) => {
+  switch (city) {
+    case FilterType.Paris: return paris;
+    case FilterType.Cologne: return cologne;
+    case FilterType.Brussels: return brussels;
+    case FilterType.Amsterdam: return amsterdam;
+    case FilterType.Hamburg: return hamburg;
+    case FilterType.Dusseldorf: return dusseldorf;
+  }
+};
+
+export const getRandomInteger = (min: number, max: number) => {
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+};
+

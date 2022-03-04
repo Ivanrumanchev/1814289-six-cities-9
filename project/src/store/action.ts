@@ -6,3 +6,6 @@ export const brussels = createAction('main/brussels');
 export const amsterdam = createAction('main/amsterdam');
 export const hamburg = createAction('main/hamburg');
 export const dusseldorf = createAction('main/dusseldorf');
+
+export const auth = createAction('global/auth');
+export const noAuth = createAction('global/noAuth');

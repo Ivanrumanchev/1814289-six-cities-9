@@ -1,14 +1,16 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {paris, cologne, brussels, amsterdam, hamburg, dusseldorf} from './action';
+import {paris, cologne, brussels, amsterdam, hamburg, dusseldorf, auth, noAuth} from './action';
 import {FilterType} from '../const';
 import {offers} from '../mocks/offers';
 import {filter} from '../utils/filter';
+import {AuthorizationStatus} from '../const';
 
 const filteredOffers = filter(offers);
 
 const initialState = {
   city: FilterType.Paris,
   offers: filteredOffers[FilterType.Paris],
+  auth: AuthorizationStatus.NoAuth,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -36,6 +38,12 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(dusseldorf, (state) => {
       state.city = FilterType.Dusseldorf;
       state.offers = filteredOffers[FilterType.Dusseldorf];
+    })
+    .addCase(auth, (state) => {
+      state.auth = AuthorizationStatus.Auth;
+    })
+    .addCase(noAuth, (state) => {
+      state.auth = AuthorizationStatus.NoAuth;
     });
 });
 
