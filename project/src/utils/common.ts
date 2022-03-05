@@ -37,3 +37,9 @@ export const getIcon = (url: string) =>
     iconSize: [ICON_SIZE, ICON_SIZE],
     iconAnchor: [ICON_SIZE/2, ICON_SIZE],
   });
+
+export const getRandomInteger = (min: number, max: number) => {
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+};
+

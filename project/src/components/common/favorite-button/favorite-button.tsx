@@ -1,8 +1,7 @@
-import {useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {AuthContext} from '../../app/app';
 import {OfferDTO} from '../../../types/offer';
 import {AuthorizationStatus, TypeScreen} from '../../../const';
+import {useAppSelector} from '../../../hooks/store';
 
 type CardProps = {
   offer: OfferDTO;
@@ -12,7 +11,8 @@ type CardProps = {
 function FavoriteButton({offer, typeScreenProp}: CardProps): JSX.Element {
   const {isFavorite} = offer;
 
-  const auth = useContext(AuthContext);
+  const authorization = useAppSelector((state) => state.auth);
+
   const navigate = useNavigate();
 
   const buttonClassName = `${typeScreenProp === TypeScreen.Main ? 'place-card' : 'property'}__bookmark-button`;
@@ -21,7 +21,7 @@ function FavoriteButton({offer, typeScreenProp}: CardProps): JSX.Element {
     <button
       className={`button ${buttonClassName} ${isFavorite ? `${buttonClassName}--active` : ''}`}
       type="button"
-      onClick={() => auth === AuthorizationStatus.NoAuth ? navigate('/login') : ''}
+      onClick={() => authorization === AuthorizationStatus.NoAuth ? navigate('/login') : ''}
     >
       <svg
         className={`${typeScreenProp === TypeScreen.Main ? 'place-card' : 'property'}__bookmark-icon`}

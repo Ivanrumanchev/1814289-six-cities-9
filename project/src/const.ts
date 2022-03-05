@@ -16,57 +16,57 @@ export enum AuthorizationStatus {
 }
 
 export enum FilterType {
-  PARIS = 'Paris',
-  COLOGNE = 'Cologne',
-  BRUSSELS = 'Brussels',
-  AMSTERDAM = 'Amsterdam',
-  HAMBURG = 'Hamburg',
-  DUSSELDORF = 'Dusseldorf',
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
 }
 
 export const citiesLocation: CitiesLocation = {
-  [FilterType.PARIS]: {
-    'name': FilterType.PARIS,
+  [FilterType.Paris]: {
+    'name': FilterType.Paris,
     'location': {
       'latitude': 48.85661,
       'longitude': 2.351499,
       'zoom': 13,
     },
   },
-  [FilterType.COLOGNE]: {
-    'name': FilterType.COLOGNE,
+  [FilterType.Cologne]: {
+    'name': FilterType.Cologne,
     'location': {
       'latitude': 50.938361,
       'longitude': 6.959974,
       'zoom': 13,
     },
   },
-  [FilterType.BRUSSELS]: {
-    'name': FilterType.BRUSSELS,
+  [FilterType.Brussels]: {
+    'name': FilterType.Brussels,
     'location': {
       'latitude': 50.846557,
       'longitude': 4.351697,
       'zoom': 13,
     },
   },
-  [FilterType.AMSTERDAM]: {
-    'name': FilterType.AMSTERDAM,
+  [FilterType.Amsterdam]: {
+    'name': FilterType.Amsterdam,
     'location': {
       'latitude': 52.37454,
       'longitude': 4.897976,
       'zoom': 13,
     },
   },
-  [FilterType.HAMBURG]: {
-    'name': FilterType.HAMBURG,
+  [FilterType.Hamburg]: {
+    'name': FilterType.Hamburg,
     'location': {
       'latitude': 53.550341,
       'longitude': 10.000654,
       'zoom': 13,
     },
   },
-  [FilterType.DUSSELDORF]: {
-    'name': FilterType.DUSSELDORF,
+  [FilterType.Dusseldorf]: {
+    'name': FilterType.Dusseldorf,
     'location': {
       'latitude': 51.225402,
       'longitude': 6.776314,
