@@ -1,14 +1,19 @@
-import React from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import MainScreen from '../../pages/main-screen';
 import LoginScreen from '../../pages/login-screen';
 import PropertyScreen from '../../pages/property-screen';
 import FavoritesScreen from '../../pages/favorites-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {AppRoute} from '../../const';
+import LoadingScreen from '../loading-screen/loading-screen';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../services/browser-history';
 import {OfferDTO} from '../../types/offer';
 import {ReviewDTO} from '../../types/review';
+import {useAppSelector} from '../../hooks/store';
+import {stateSelector} from '../../store/selectors';
+import {AppRoute} from '../../const';
+import {isCheckedAuth} from '../../utils/common';
 
 type AppScreenProps = {
   offers: OfferDTO[];
@@ -16,8 +21,16 @@ type AppScreenProps = {
 }
 
 function App({offers, reviews}: AppScreenProps): JSX.Element {
+  const {authorizationStatus, isDataLoaded} = useAppSelector(stateSelector);
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Root}
@@ -60,7 +73,7 @@ function App({offers, reviews}: AppScreenProps): JSX.Element {
           element={<NotFoundScreen />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

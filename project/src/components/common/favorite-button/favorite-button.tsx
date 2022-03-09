@@ -1,7 +1,8 @@
 import {useNavigate} from 'react-router-dom';
+import {useAppSelector} from '../../../hooks/store';
+import {authSelector} from '../../../store/selectors';
 import {OfferDTO} from '../../../types/offer';
 import {AuthorizationStatus, TypeScreen} from '../../../const';
-import {useAppSelector} from '../../../hooks/store';
 
 type CardProps = {
   offer: OfferDTO;
@@ -11,7 +12,7 @@ type CardProps = {
 function FavoriteButton({offer, typeScreenProp}: CardProps): JSX.Element {
   const {isFavorite} = offer;
 
-  const authorization = useAppSelector((state) => state.auth);
+  const authorization = useAppSelector(authSelector);
 
   const navigate = useNavigate();
 

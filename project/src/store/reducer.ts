@@ -1,30 +1,46 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {auth, noAuth, activeCity} from './action';
-import {FilterType} from '../const';
-import {offers} from '../mocks/offers';
-import {filter} from '../utils/filter';
-import {AuthorizationStatus} from '../const';
+import {activeCity, loadOffers, requireAuthorization, setUserData} from './action';
+import {OfferDTO} from '../types/offer';
+import {UserData} from '../types/user-data';
+import {FilterType, AuthorizationStatus} from '../const';
 
-const filteredOffers = filter(offers);
+type InitialState = {
+  offers: OfferDTO[],
+  city: FilterType,
+  authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
+  userData: UserData,
+};
 
-const initialState = {
-  offers: offers,
+const initialState: InitialState = {
+  offers: [],
   city: FilterType.Paris,
-  filteredOffers: filteredOffers[FilterType.Paris],
-  auth: AuthorizationStatus.NoAuth,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isDataLoaded: false,
+  userData: {
+    avatarUrl: '',
+    email: '',
+    id: 0,
+    isPro: false,
+    name: '',
+    token: '',
+  },
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(activeCity, (state, action) => {
       state.city = action.payload;
-      state.filteredOffers = filteredOffers[action.payload];
     })
-    .addCase(auth, (state) => {
-      state.auth = AuthorizationStatus.Auth;
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+      state.isDataLoaded = true;
     })
-    .addCase(noAuth, (state) => {
-      state.auth = AuthorizationStatus.NoAuth;
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
     });
 });
 

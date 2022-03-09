@@ -1,8 +1,9 @@
 import NewReview from '../new-review/new-review';
 import ReviewItem from '../review-item/review-item';
+import {useAppSelector} from '../../../hooks/store';
+import {authSelector} from '../../../store/selectors';
 import {ReviewDTO} from '../../../types/review';
 import {AuthorizationStatus} from '../../../const';
-import {useAppSelector} from '../../../hooks/store';
 
 type ReviewsListProps = {
   reviews: ReviewDTO[];
@@ -11,7 +12,7 @@ type ReviewsListProps = {
 const QUANTITY_REVIEWS = 10;
 
 function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
-  const authorization = useAppSelector((state) => state.auth);
+  const authorization = useAppSelector(authSelector);
 
   return (
     <section className="property__reviews reviews">
