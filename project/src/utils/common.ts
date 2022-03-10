@@ -1,6 +1,6 @@
-import {OfferDTO} from './../types/offer';
 import {Icon} from 'leaflet';
-import { SortTypes } from '../const';
+import {OfferDTO} from './../types/offer';
+import {AuthorizationStatus, SortTypes} from '../const';
 
 const ICON_SIZE = 40;
 const RATING_RATIO = 20;
@@ -63,3 +63,6 @@ export const getSortedOffers = (offers: OfferDTO[], activeSort: SortTypes) => {
       return offers;
   }
 };
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
