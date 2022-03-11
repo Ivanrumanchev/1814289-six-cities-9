@@ -109,3 +109,9 @@ export enum HttpCode {
   Unauthorized = 401,
   NotFound = 404,
 }
+
+export enum TextLength {
+  loginMax = 100,
+  newReviewMin = 50,
+  newReviewMax = 300,
+}

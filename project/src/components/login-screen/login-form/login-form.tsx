@@ -2,6 +2,12 @@ import {useRef, FormEvent} from 'react';
 import {useAppDispatch} from '../../../hooks/store';
 import {loginAction} from '../../../store/api-actions';
 import {AuthData} from '../../../types/auth-data';
+import {TextLength} from '../../../const';
+
+enum ErrorMessage {
+  Email = 'Введите корректный email, соответствующий шаблону Example@mail.ru',
+  Password = 'Пароль должен содержать как минимум одну латинскую букву и одну цифру, а также не должен содержать пробелов',
+}
 
 function LoginForm(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -24,6 +30,34 @@ function LoginForm(): JSX.Element {
     }
   };
 
+  const handleEmailChange = () => {
+    if (emailRef.current !== null) {
+      const emailField = emailRef.current;
+
+      const result = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailField.value);
+
+      result === false
+        ? emailField.setCustomValidity(ErrorMessage.Email)
+        : emailField.setCustomValidity('');
+    }
+  };
+
+  const handlePasswordChange = () => {
+    if (passwordRef.current !== null) {
+      const passwordField = passwordRef.current;
+
+      const containNumber = /\d/g.test(passwordField.value);
+      const containString = /[a-z]/gi.test(passwordField.value);
+      const containSpace = /[\s]/gi.test(passwordField.value);
+
+      const result = containNumber && containString && !containSpace;
+
+      result === false
+        ? passwordField.setCustomValidity(ErrorMessage.Password)
+        : passwordField.setCustomValidity('');
+    }
+  };
+
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
@@ -41,8 +75,10 @@ function LoginForm(): JSX.Element {
             type="email"
             name="email"
             placeholder="Email"
+            maxLength={TextLength.loginMax}
             required
             ref={emailRef}
+            onChange={handleEmailChange}
           />
         </div>
 
@@ -55,7 +91,9 @@ function LoginForm(): JSX.Element {
             name="password"
             placeholder="Password"
             required
+            maxLength={TextLength.loginMax}
             ref={passwordRef}
+            onChange={handlePasswordChange}
           />
         </div>
 
