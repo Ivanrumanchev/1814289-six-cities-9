@@ -1,6 +1,6 @@
 import {FilterType} from '../../../const';
 import {useAppDispatch} from '../../../hooks/store';
-import {activeCity} from '../../../store/action';
+import {activeCity} from '../../../store/offers-data/offers-data';
 
 type CitiesListProps = {
   nameOfCity: FilterType;

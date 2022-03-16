@@ -4,7 +4,7 @@ import {ErrorType} from '../types/error';
 import {HttpCode} from '../const';
 
 
-export const errorHandle = (error: ErrorType): void => {
+export const errorServerHandle = (error: ErrorType): void => {
   if (!request.isAxiosError(error)) {
     throw error;
   }
@@ -20,8 +20,12 @@ export const errorHandle = (error: ErrorType): void => {
         toast.info(response.data.error);
         break;
       case HttpCode.NotFound:
-        toast.info(response.data.error);
+        toast.info(response.statusText);
         break;
     }
   }
+};
+
+export const errorHandle = (error: string): void => {
+  toast.error(error);
 };

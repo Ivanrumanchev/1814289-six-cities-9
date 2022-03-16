@@ -4,9 +4,9 @@ import {Provider} from 'react-redux';
 import {ToastContainer} from 'react-toastify';
 import App from './components/app/app';
 import {offers} from './mocks/offers';
-import {reviews} from './mocks/reviews';
 import {store} from './store/store';
-import {fetchOffersAction, checkAuthAction} from './store/api-actions';
+import {checkAuthAction} from './store/api-actions';
+import {fetchOffersAction} from './store/offers-data/offers-data';
 import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchOffersAction());
@@ -18,7 +18,6 @@ ReactDOM.render(
       <ToastContainer />
       <App
         offers={offers}
-        reviews={reviews}
       />
     </Provider>
   </React.StrictMode>,

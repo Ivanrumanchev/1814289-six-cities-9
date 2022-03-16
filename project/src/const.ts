@@ -95,11 +95,10 @@ export enum SortTypes {
 
 export enum APIRoute {
   Offers = '/hotels',
-  Offer = '/hotels/{hotelId}',
-  Nearby = '/hotels/{hotelId}/nearby',
+  Room = '/hotels/',
   Favorite = '/favorite',
   FavoriteStatus = '/favorite/{hotelId}/{status}',
-  Comments = '/comments/{hotelId}',
+  Comments = '/comments/',
   Login = '/login',
   Logout = '/logout',
 }
@@ -111,7 +110,29 @@ export enum HttpCode {
 }
 
 export enum TextLength {
-  loginMax = 100,
-  newReviewMin = 50,
-  newReviewMax = 300,
+  LoginMax = 100,
+  NewReviewMin = 50,
+  NewReviewMax = 300,
+}
+
+export enum NameSpace {
+  OffersData = 'OFFERS_DATA',
+  RoomData = 'ROOM_DATA',
+  User = 'USER',
+}
+
+export enum ApiActions {
+  FetchOffers = 'data/fetchOffers',
+  CheckAuth = 'user/checkAuth',
+  Login = 'user/login',
+  Logout = 'user/logout',
+  FetchRoom = 'data/fetchRoom',
+  FetchReviews = 'data/fetchReviews',
+  FetchNearby = 'data/fetchNearby',
+  postNewReview = 'data/postNewReview',
+}
+
+export enum LoadingStatus {
+  Pending = 'pending',
+  Idle = 'idle',
 }

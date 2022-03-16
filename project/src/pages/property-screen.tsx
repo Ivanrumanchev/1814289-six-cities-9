@@ -1,4 +1,5 @@
-import {useParams, Navigate} from 'react-router-dom';
+import {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
 import Header from '../components/common/header/header';
 import Map from '../components/common/map/map';
 import ReviewsList from '../components/property-screen/reviews-list/reviews-list';
@@ -6,35 +7,37 @@ import NearPlacesList from '../components/property-screen/near-places-list/near-
 import FavoriteButton from '../components/common/favorite-button/favorite-button';
 import Gallery from '../components/property-screen/gallery/gallery';
 import Rating from '../components/common/rating/rating';
-import {OfferDTO} from '../types/offer';
-import {ReviewDTO} from '../types/review';
-import {TypeScreen, AppRoute, RatingType} from '../const';
+import LoadingScreen from '../components/loading-screen/loading-screen';
+import {useAppDispatch, useAppSelector} from '../hooks/store';
+import {clearRoom, fetchRoomAction} from '../store/room-data/room-data';
+import {roomSelector, loadingRoomSelector, nearbySelector} from '../store/selectors';
+import {TypeScreen, RatingType, LoadingStatus} from '../const';
 import {capitalizeFirstLetter} from '../utils/common';
 
-type PropertyScreenProps = {
-  offers: OfferDTO[];
-  reviews: ReviewDTO[];
-}
-
-const QUANTITY_NEAR_PLACES = 3;
-
-function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
+function PropertyScreen(): JSX.Element {
   const params = useParams();
 
-  if (!params.id) {
-    return <Navigate to={AppRoute.NotFound} replace />;
+  const dispatch = useAppDispatch();
+
+  const offerId = params.id ? +params.id : 0;
+
+  useEffect(() => {
+    dispatch(fetchRoomAction(offerId));
+
+    return () => {
+      dispatch(clearRoom());
+    };
+  },[dispatch, offerId]);
+
+  const room = useAppSelector(roomSelector);
+  const loadingRoom = useAppSelector(loadingRoomSelector);
+  const nearby = useAppSelector(nearbySelector);
+
+  if (loadingRoom === LoadingStatus.Pending || !room) {
+    return (
+      <LoadingScreen />
+    );
   }
-
-  const offerId = +params.id;
-  const room = offers.filter((offer) => offer.id === offerId)[0];
-
-  if (!room) {
-    return <Navigate to={AppRoute.NotFound} replace />;
-  }
-
-  const nearPlaces = offers
-    .filter((offer) => offer.city.name === room.city.name)
-    .slice(0, QUANTITY_NEAR_PLACES);
 
   const {isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = room;
   const {name, isPro, avatarUrl} = host;
@@ -127,19 +130,21 @@ function PropertyScreen({offers, reviews}: PropertyScreenProps): JSX.Element {
                 </div>
               </div>
 
-              <ReviewsList reviews={reviews}/>
+              <ReviewsList offerId={offerId}/>
             </div>
           </div>
 
-          <Map
-            offers={nearPlaces}
-            city={room.city.name}
-            activeCard={room}
-            typeScreenProp={TypeScreen.Properties}
-          />
+          {nearby ?
+            <Map
+              offers={[...nearby, room]}
+              city={room.city.name}
+              activeCard={room}
+              typeScreenProp={TypeScreen.Properties}
+            />
+            : <LoadingScreen />}
         </section>
 
-        <NearPlacesList nearPlaces={nearPlaces} />
+        <NearPlacesList offerId={offerId} />
       </main>
     </div>
   );

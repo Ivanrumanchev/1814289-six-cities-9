@@ -75,7 +75,7 @@ function LoginForm(): JSX.Element {
             type="email"
             name="email"
             placeholder="Email"
-            maxLength={TextLength.loginMax}
+            maxLength={TextLength.LoginMax}
             required
             ref={emailRef}
             onChange={handleEmailChange}
@@ -91,7 +91,7 @@ function LoginForm(): JSX.Element {
             name="password"
             placeholder="Password"
             required
-            maxLength={TextLength.loginMax}
+            maxLength={TextLength.LoginMax}
             ref={passwordRef}
             onChange={handlePasswordChange}
           />

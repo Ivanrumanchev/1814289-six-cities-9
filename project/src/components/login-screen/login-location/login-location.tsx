@@ -2,7 +2,7 @@ import {useNavigate} from 'react-router-dom';
 import {useAppDispatch} from '../../../hooks/store';
 import {AppRoute, FilterType} from '../../../const';
 import {getRandomInteger} from '../../../utils/common';
-import {activeCity} from '../../../store/action';
+import {activeCity} from '../../../store/offers-data/offers-data';
 
 function LoginLocation(): JSX.Element {
   const dispatch = useAppDispatch();

@@ -9,21 +9,20 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../services/browser-history';
 import {OfferDTO} from '../../types/offer';
-import {ReviewDTO} from '../../types/review';
 import {useAppSelector} from '../../hooks/store';
-import {stateSelector} from '../../store/selectors';
-import {AppRoute} from '../../const';
+import {authSelector, loadingOffersSelector} from '../../store/selectors';
+import {AppRoute, LoadingStatus} from '../../const';
 import {isCheckedAuth} from '../../utils/common';
 
 type AppScreenProps = {
   offers: OfferDTO[];
-  reviews: ReviewDTO[];
 }
 
-function App({offers, reviews}: AppScreenProps): JSX.Element {
-  const {authorizationStatus, isDataLoaded} = useAppSelector(stateSelector);
+function App({offers}: AppScreenProps): JSX.Element {
+  const authorizationStatus = useAppSelector(authSelector);
+  const loading = useAppSelector(loadingOffersSelector);
 
-  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+  if (isCheckedAuth(authorizationStatus) || loading === LoadingStatus.Pending) {
     return (
       <LoadingScreen />
     );
@@ -62,10 +61,7 @@ function App({offers, reviews}: AppScreenProps): JSX.Element {
         <Route
           path={AppRoute.PropertyId}
           element={
-            <PropertyScreen
-              offers={offers}
-              reviews={reviews}
-            />
+            <PropertyScreen />
           }
         />
         <Route
