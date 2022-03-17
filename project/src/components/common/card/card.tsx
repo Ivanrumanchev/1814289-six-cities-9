@@ -1,9 +1,9 @@
 import {Link} from 'react-router-dom';
 import FavoriteButton from '../favorite-button/favorite-button';
 import Rating from '../../common/rating/rating';
-import {OfferDTO} from '../../../types/offer';
-import {AppRoute, RatingType, TypeScreen} from '../../../const';
 import {capitalizeFirstLetter} from '../../../utils/common';
+import {AppRoute, RatingType, TypeScreen} from '../../../const';
+import {OfferDTO} from '../../../types/offer';
 
 type OnSetActiveCard = (offer: OfferDTO) => void;
 

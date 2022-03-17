@@ -1,10 +1,10 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import Card from '../../common/card/card';
 import LoadingScreen from '../../loading-screen/loading-screen';
-import {useAppDispatch, useAppSelector} from '../../../hooks/store';
 import {nearbySelector} from '../../../store/selectors';
 import {clearNearby} from '../../../store/room-data/room-data';
 import {fetchNearbyAction} from '../../../store/api-actions';
+import {useAppDispatch, useAppSelector} from '../../../hooks/store';
 import {TypeScreen} from '../../../const';
 
 type NearPlacesListProps = {
@@ -12,10 +12,14 @@ type NearPlacesListProps = {
 }
 
 function NearPlacesList({offerId}: NearPlacesListProps): JSX.Element {
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchNearbyAction(offerId));
+    setLoading(true);
+
+    dispatch(fetchNearbyAction(offerId)).then(() => setLoading(false));
 
     return () => {
       dispatch(clearNearby());
@@ -24,9 +28,13 @@ function NearPlacesList({offerId}: NearPlacesListProps): JSX.Element {
 
   const nearby = useAppSelector(nearbySelector);
 
-  if (!nearby) {
+  if (loading) {
     return (
       <LoadingScreen />
+    );
+  } else if (!nearby) {
+    return (
+      <h2 className="near-places__title">Объявления рядом не загрузились. Попробуйте перезагрузить страницу</h2>
     );
   }
 

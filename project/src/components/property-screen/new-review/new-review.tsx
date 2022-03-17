@@ -1,8 +1,7 @@
-import {FormEvent, Fragment, useRef, useState} from 'react';
-import {useAppDispatch} from '../../../hooks/store';
+import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import {postNewReviewAction} from '../../../store/api-actions';
 import {loadReviews} from '../../../store/room-data/room-data';
-import {errorHandle} from '../../../services/error-handle';
+import {useAppDispatch} from '../../../hooks/store';
 import {ApiActions, TextLength} from '../../../const';
 import './new-review.css';
 
@@ -18,71 +17,74 @@ const ratings = [
 
 function NewReview(): JSX.Element {
   const [ratingState, setRatingState] = useState('');
+  const [reviewState, setReviewState] = useState('');
   const [validationReviewState, setValidationReviewState] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
 
-  const reviewRef = useRef<HTMLTextAreaElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
-
-  const ratingChangeHandle = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const ratingChangeHandle = (evt: ChangeEvent<HTMLInputElement>) => {
     setRatingState(evt.target.value);
   };
 
-  const reviewChangeHandle = () => {
-    if (reviewRef.current !== null) {
-      const reviewField = reviewRef.current;
+  const reviewChangeHandle = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    const reviewField = evt.target;
 
-      const valueLength = reviewField.value.length;
+    setReviewState(reviewField.value);
 
-      if (valueLength < TextLength.NewReviewMin) {
-        reviewField.setCustomValidity(`Ещё ${  TextLength.NewReviewMin - valueLength } симв.`);
-      } else if (valueLength > TextLength.NewReviewMax) {
-        reviewField.setCustomValidity(`Удалите лишние ${  valueLength - TextLength.NewReviewMax } симв.`);
-      } else {
-        reviewField.setCustomValidity('');
-      }
+    const valueLength = reviewField.value.length;
 
-      setValidationReviewState(reviewField.reportValidity());
+    if (valueLength < TextLength.NewReviewMin) {
+      reviewField.setCustomValidity(`Ещё ${  TextLength.NewReviewMin - valueLength } симв.`);
+    } else if (valueLength > TextLength.NewReviewMax) {
+      reviewField.setCustomValidity(`Удалите лишние ${  valueLength - TextLength.NewReviewMax } симв.`);
+    } else {
+      reviewField.setCustomValidity('');
     }
+
+    setValidationReviewState(reviewField.reportValidity());
+  };
+
+  const resetForm = (form: HTMLFormElement) => {
+    form.reset();
+
+    setRatingState('');
+    setReviewState('');
+
+    setValidationReviewState(false);
+    setLoading(false);
+  };
+
+  const showError = (form: HTMLFormElement) => {
+    form.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT/1000}s`;
+
+    setTimeout(() => {
+      form.style.animation = '';
+
+      setLoading(false);
+    }, SHAKE_ANIMATION_TIMEOUT);
   };
 
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (reviewRef.current !== null && formRef.current !== null) {
-      setLoading(true);
+    setLoading(true);
 
-      try {
-        const newReviewsList = await dispatch(postNewReviewAction({
-          comment: reviewRef.current.value,
-          rating: +ratingState,
-        }));
+    try {
+      const newReviewsList = await dispatch(postNewReviewAction({
+        comment: reviewState,
+        rating: +ratingState,
+      }));
 
-        if (newReviewsList.type === `${ApiActions.postNewReview}/rejected`) {
-          throw new Error('Невозможно отправить отзыв. Попробуйте позднее');
-        }
-
-        dispatch(loadReviews(newReviewsList.payload));
-
-        formRef.current.reset();
-        setRatingState('');
-        setValidationReviewState(false);
-
-        setLoading(false);
-      } catch (error) {
-        errorHandle(error as string);
-        reviewRef.current.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT/1000}s`;
-
-        setTimeout(() => {
-          if (reviewRef.current !== null) {
-            reviewRef.current.style.animation = '';
-          }
-
-          setLoading(false);
-        }, SHAKE_ANIMATION_TIMEOUT);
+      if (newReviewsList.type === `${ApiActions.postNewReview}/rejected`) {
+        throw new Error('Невозможно отправить отзыв. Попробуйте позднее');
       }
+
+      dispatch(loadReviews(newReviewsList.payload));
+
+      resetForm(evt.target as HTMLFormElement);
+    } catch (error) {
+      showError(evt.target as HTMLFormElement);
     }
   };
 
@@ -92,7 +94,6 @@ function NewReview(): JSX.Element {
       action="#"
       method="post"
       onSubmit={handleSubmit}
-      ref={formRef}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
@@ -125,7 +126,7 @@ function NewReview(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={reviewChangeHandle}
-        ref={reviewRef}
+        value={reviewState}
         disabled={loading}
       >
       </textarea>

@@ -1,7 +1,7 @@
 import Rating from '../../common/rating/rating';
-import {ReviewDTO} from '../../../types/review';
-import {RatingType} from '../../../const';
 import {getFormattedAttrDate, getFormattedDate} from '../../../utils/common';
+import {RatingType} from '../../../const';
+import {ReviewDTO} from '../../../types/review';
 
 type ReviewProps = {
   review: ReviewDTO;

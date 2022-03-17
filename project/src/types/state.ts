@@ -1,9 +1,9 @@
 import {SerializedError} from '@reduxjs/toolkit';
+import {AuthorizationStatus, City} from '../const';
 import {store} from '../store/store.js';
 import {UserData} from './user-data.js';
 import {OfferDTO} from './offer.js';
 import {ReviewDTO} from './review.js';
-import {AuthorizationStatus, FilterType} from '../const';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -16,17 +16,17 @@ export type UserProcess = {
 
 export type OffersData = {
   loading: string,
-  offers: OfferDTO[] | null | unknown,
+  offers: OfferDTO[] | null,
   currentRequestId: undefined | string,
   error: null | SerializedError,
-  city: FilterType,
+  city: City,
 }
 
 export type RoomData = {
   loading: string,
-  room: OfferDTO | null | unknown,
-  reviews: ReviewDTO[] | null | unknown,
-  nearby: OfferDTO[] | null | unknown,
-  currentRequestId: undefined | string,
+  room: OfferDTO | null,
+  reviews: ReviewDTO[] | null,
+  nearby: OfferDTO[] | null,
+  currentRequestId: string | undefined,
   error: null | SerializedError,
 }

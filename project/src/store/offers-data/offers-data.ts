@@ -1,37 +1,43 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {errorServerHandle} from '../../services/error-handle';
+import {RootState} from '../rootReducer';
 import {api} from '../store';
+import {errorServerHandle} from '../../services/error-handle';
+import {APIRoute, City, NameSpace, ApiActions, LoadingStatus} from '../../const';
 import {OfferDTO} from '../../types/offer';
 import {OffersData} from '../../types/state';
-import {RootState} from '../rootReducer';
-import {APIRoute, FilterType, NameSpace, ApiActions, LoadingStatus} from '../../const';
 
 const initialState: OffersData = {
   loading: LoadingStatus.Idle,
   offers: [],
   currentRequestId: '',
   error: null,
-  city: FilterType.Paris,
+  city: City.Paris,
 };
 
-export const fetchOffersAction = createAsyncThunk<OfferDTO | unknown, void, {state: RootState}>(
-  ApiActions.FetchOffers,
-  async (_,{getState, requestId}) => {
+export const fetchOffersAction = createAsyncThunk<
+    OfferDTO[],
+    void,
+    {
+      state: RootState,
+      rejectValue: undefined,
+    }
+  >(ApiActions.FetchOffers, async (_,{getState, requestId, rejectWithValue}) => {
     const {currentRequestId, loading} = getState()[NameSpace.OffersData];
 
     if (loading !== LoadingStatus.Pending || requestId !== currentRequestId) {
-      return;
+      return rejectWithValue(undefined);
     }
 
     try {
       const {data} = await api.get<OfferDTO[]>(APIRoute.Offers);
 
-      return data as OfferDTO[];
+      return data;
     } catch (error) {
       errorServerHandle(error);
+
+      return rejectWithValue(undefined);
     }
-  },
-);
+  });
 
 export const offersData = createSlice({
   name: NameSpace.OffersData,

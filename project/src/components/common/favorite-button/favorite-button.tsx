@@ -1,8 +1,8 @@
 import {useNavigate} from 'react-router-dom';
-import {useAppSelector} from '../../../hooks/store';
 import {authSelector} from '../../../store/selectors';
-import {OfferDTO} from '../../../types/offer';
+import {useAppSelector} from '../../../hooks/store';
 import {AuthorizationStatus, TypeScreen} from '../../../const';
+import {OfferDTO} from '../../../types/offer';
 
 type CardProps = {
   offer: OfferDTO;

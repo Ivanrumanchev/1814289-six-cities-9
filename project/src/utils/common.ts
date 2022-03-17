@@ -1,7 +1,7 @@
 import {Icon} from 'leaflet';
-import {OfferDTO} from './../types/offer';
-import {ReviewDTO} from '../types/review';
 import {AuthorizationStatus, SortTypes} from '../const';
+import {ReviewDTO} from '../types/review';
+import {OfferDTO} from './../types/offer';
 
 const ICON_SIZE = 40;
 const RATING_RATIO = 20;

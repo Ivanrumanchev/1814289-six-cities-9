@@ -1,15 +1,15 @@
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch} from '../../../hooks/store';
-import {AppRoute, FilterType} from '../../../const';
-import {getRandomInteger} from '../../../utils/common';
 import {activeCity} from '../../../store/offers-data/offers-data';
+import {getRandomInteger} from '../../../utils/common';
+import {AppRoute, City} from '../../../const';
 
 function LoginLocation(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const randomIndex = getRandomInteger(0, Object.values(FilterType).length - 1);
-  const randomCity = Object.values(FilterType)[randomIndex];
+  const randomIndex = getRandomInteger(0, Object.values(City).length - 1);
+  const randomCity = Object.values(City)[randomIndex];
 
   return (
     <section className="locations locations--login locations--current">

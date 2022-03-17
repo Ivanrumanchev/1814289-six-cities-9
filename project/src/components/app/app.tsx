@@ -8,11 +8,11 @@ import PrivateRoute from '../private-route/private-route';
 import LoadingScreen from '../loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../services/browser-history';
-import {OfferDTO} from '../../types/offer';
-import {useAppSelector} from '../../hooks/store';
 import {authSelector, loadingOffersSelector} from '../../store/selectors';
-import {AppRoute, LoadingStatus} from '../../const';
+import {useAppSelector} from '../../hooks/store';
 import {isCheckedAuth} from '../../utils/common';
+import {AppRoute, LoadingStatus} from '../../const';
+import {OfferDTO} from '../../types/offer';
 
 type AppScreenProps = {
   offers: OfferDTO[];

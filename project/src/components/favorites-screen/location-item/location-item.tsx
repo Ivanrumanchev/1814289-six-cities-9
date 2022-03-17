@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import FavoriteItem from '../favorite-item/favorite-item';
-import {OfferDTO} from '../../../types/offer';
 import {AppRoute} from '../../../const';
+import {OfferDTO} from '../../../types/offer';
 
 type LocationItemProps = {
   offers: OfferDTO[];

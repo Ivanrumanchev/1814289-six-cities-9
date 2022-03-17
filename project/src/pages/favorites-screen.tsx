@@ -1,9 +1,9 @@
 import Header from '../components/common/header/header';
 import Logo from '../components/common/logo/logo';
 import LocationItem from '../components/favorites-screen/location-item/location-item';
-import {OfferDTO} from '../types/offer';
-import {FilterType} from '../const';
 import {filter} from '../utils/filter';
+import {City} from '../const';
+import {OfferDTO} from '../types/offer';
 
 type FavoritesScreenProps = {
   offers: OfferDTO[];
@@ -22,7 +22,7 @@ function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
 
             <ul className="favorites__list">
-              {Object.values(FilterType).map((city) =>
+              {Object.values(City).map((city) =>
                 filteredOffers[city].length === 0
                   ? null
                   : (

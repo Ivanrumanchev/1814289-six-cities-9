@@ -1,8 +1,8 @@
-import {useRef, FormEvent} from 'react';
-import {useAppDispatch} from '../../../hooks/store';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import {loginAction} from '../../../store/api-actions';
-import {AuthData} from '../../../types/auth-data';
+import {useAppDispatch} from '../../../hooks/store';
 import {TextLength} from '../../../const';
+import {AuthData} from '../../../types/auth-data';
 
 enum ErrorMessage {
   Email = 'Введите корректный email, соответствующий шаблону Example@mail.ru',
@@ -10,8 +10,8 @@ enum ErrorMessage {
 }
 
 function LoginForm(): JSX.Element {
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [emailState, setEmailState] = useState('');
+  const [passwordState, setPasswordState] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -22,40 +22,34 @@ function LoginForm(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-    }
+    onSubmit({
+      email: emailState,
+      password: passwordState,
+    });
   };
 
-  const handleEmailChange = () => {
-    if (emailRef.current !== null) {
-      const emailField = emailRef.current;
+  const handleEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const emailField = evt.target;
 
-      const result = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailField.value);
+    setEmailState(emailField.value);
 
-      result === false
-        ? emailField.setCustomValidity(ErrorMessage.Email)
-        : emailField.setCustomValidity('');
-    }
+    const result = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/.test(emailField.value);
+
+    result === false
+      ? emailField.setCustomValidity(ErrorMessage.Email)
+      : emailField.setCustomValidity('');
   };
 
-  const handlePasswordChange = () => {
-    if (passwordRef.current !== null) {
-      const passwordField = passwordRef.current;
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const passwordField = evt.target;
 
-      const containNumber = /\d/g.test(passwordField.value);
-      const containString = /[a-z]/gi.test(passwordField.value);
-      const containSpace = /[\s]/gi.test(passwordField.value);
+    setPasswordState(passwordField.value);
 
-      const result = containNumber && containString && !containSpace;
+    const result = /^(?=.*\d)(?=.*[a-zA-Z])(?!.*\s).{2,}$/.test(passwordField.value);
 
-      result === false
-        ? passwordField.setCustomValidity(ErrorMessage.Password)
-        : passwordField.setCustomValidity('');
-    }
+    result === false
+      ? passwordField.setCustomValidity(ErrorMessage.Password)
+      : passwordField.setCustomValidity('');
   };
 
   return (
@@ -75,9 +69,9 @@ function LoginForm(): JSX.Element {
             type="email"
             name="email"
             placeholder="Email"
-            maxLength={TextLength.LoginMax}
             required
-            ref={emailRef}
+            maxLength={TextLength.LoginMax}
+            value={emailState}
             onChange={handleEmailChange}
           />
         </div>
@@ -92,7 +86,7 @@ function LoginForm(): JSX.Element {
             placeholder="Password"
             required
             maxLength={TextLength.LoginMax}
-            ref={passwordRef}
+            value={passwordState}
             onChange={handlePasswordChange}
           />
         </div>

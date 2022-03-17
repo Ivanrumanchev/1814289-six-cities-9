@@ -1,13 +1,13 @@
+import {City} from '../const';
 import {OfferDTO} from '../types/offer';
-import {FilterType} from '../const';
 
-type FilteredCities = {[keyof in FilterType]: OfferDTO[]};
+type FilteredCities = {[keyof in City]: OfferDTO[]};
 
 export const filter = (offers: OfferDTO[]): FilteredCities =>
   offers.reduce<FilteredCities>((filteredCitiesResult, currentOffer) => {
     const currentCity = currentOffer.city.name;
 
-    Object.values(FilterType).forEach((city) => {
+    Object.values(City).forEach((city) => {
       if (currentCity === city) {
         filteredCitiesResult[city].push(currentOffer);
       }
@@ -15,11 +15,11 @@ export const filter = (offers: OfferDTO[]): FilteredCities =>
 
     return filteredCitiesResult;
   }, {
-    [FilterType.Paris]: [],
-    [FilterType.Cologne]: [],
-    [FilterType.Brussels]: [],
-    [FilterType.Amsterdam]: [],
-    [FilterType.Hamburg]: [],
-    [FilterType.Dusseldorf]: [],
+    [City.Paris]: [],
+    [City.Cologne]: [],
+    [City.Brussels]: [],
+    [City.Amsterdam]: [],
+    [City.Hamburg]: [],
+    [City.Dusseldorf]: [],
   } as FilteredCities);
 

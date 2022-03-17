@@ -1,13 +1,13 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import NewReview from '../new-review/new-review';
 import ReviewItem from '../review-item/review-item';
 import LoadingScreen from '../../loading-screen/loading-screen';
-import {useAppDispatch, useAppSelector} from '../../../hooks/store';
 import {authSelector, reviewsSelector} from '../../../store/selectors';
 import {clearReviews} from '../../../store/room-data/room-data';
 import {fetchReviewsAction} from '../../../store/api-actions';
-import {AuthorizationStatus} from '../../../const';
+import {useAppDispatch, useAppSelector} from '../../../hooks/store';
 import {sortReviewsByPrice} from '../../../utils/common';
+import {AuthorizationStatus} from '../../../const';
 
 type ReviewsListProps = {
   offerId: number;
@@ -16,12 +16,15 @@ type ReviewsListProps = {
 const QUANTITY_REVIEWS = 10;
 
 function ReviewsList({offerId}: ReviewsListProps): JSX.Element {
+  const [loading, setLoading] = useState(false);
   const authorization = useAppSelector(authSelector);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchReviewsAction(offerId));
+    setLoading(true);
+
+    dispatch(fetchReviewsAction(offerId)).then(() => setLoading(false));
 
     return () => {
       dispatch(clearReviews());
@@ -30,9 +33,13 @@ function ReviewsList({offerId}: ReviewsListProps): JSX.Element {
 
   const reviews = useAppSelector(reviewsSelector);
 
-  if (!reviews) {
+  if (loading) {
     return (
       <LoadingScreen />
+    );
+  } else if (!reviews) {
+    return (
+      <h2 className="reviews__title">Отзывы не загрузились. Попробуйте перезагрузить страницу</h2>
     );
   }
 

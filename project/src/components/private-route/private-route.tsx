@@ -1,7 +1,7 @@
 import {Navigate} from 'react-router-dom';
 import {RouteProps} from 'react-router-dom';
-import {useAppSelector} from '../../hooks/store';
 import {authSelector} from '../../store/selectors';
+import {useAppSelector} from '../../hooks/store';
 import {AppRoute, AuthorizationStatus} from '../../const';
 
 type PrivateRouteProps = RouteProps & {

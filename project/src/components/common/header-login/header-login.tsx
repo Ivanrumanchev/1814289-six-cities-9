@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
-import {useAppSelector, useAppDispatch} from '../../../hooks/store';
 import {logoutAction} from '../../../store/api-actions';
 import {authSelector, userDataSelector} from '../../../store/selectors';
+import {useAppSelector, useAppDispatch} from '../../../hooks/store';
 import {AppRoute, AuthorizationStatus} from '../../../const';
 
 function HeaderLogin(): JSX.Element {

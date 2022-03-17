@@ -1,5 +1,5 @@
-import browserHistory from '../../services/browser-history';
 import {Middleware} from 'redux';
+import browserHistory from '../../services/browser-history';
 import {rootReducer} from '../rootReducer';
 import {REDIRECT_TO_ROUTE} from '../action';
 

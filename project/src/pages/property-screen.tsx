@@ -8,11 +8,11 @@ import FavoriteButton from '../components/common/favorite-button/favorite-button
 import Gallery from '../components/property-screen/gallery/gallery';
 import Rating from '../components/common/rating/rating';
 import LoadingScreen from '../components/loading-screen/loading-screen';
-import {useAppDispatch, useAppSelector} from '../hooks/store';
 import {clearRoom, fetchRoomAction} from '../store/room-data/room-data';
 import {roomSelector, loadingRoomSelector, nearbySelector} from '../store/selectors';
-import {TypeScreen, RatingType, LoadingStatus} from '../const';
+import {useAppDispatch, useAppSelector} from '../hooks/store';
 import {capitalizeFirstLetter} from '../utils/common';
+import {TypeScreen, RatingType, LoadingStatus} from '../const';
 
 function PropertyScreen(): JSX.Element {
   const params = useParams();
@@ -134,14 +134,12 @@ function PropertyScreen(): JSX.Element {
             </div>
           </div>
 
-          {nearby ?
-            <Map
-              offers={[...nearby, room]}
-              city={room.city.name}
-              activeCard={room}
-              typeScreenProp={TypeScreen.Properties}
-            />
-            : <LoadingScreen />}
+          <Map
+            offers={nearby ? [...nearby, room] : [room]}
+            city={room.city.name}
+            activeCard={room}
+            typeScreenProp={TypeScreen.Properties}
+          />
         </section>
 
         <NearPlacesList offerId={offerId} />

@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {errorServerHandle} from '../../services/error-handle';
 import {api} from '../store';
 import {RootState} from '../rootReducer';
 import {redirectToRoute} from '../action';
+import {errorServerHandle} from '../../services/error-handle';
+import {APIRoute, AppRoute, NameSpace, ApiActions, LoadingStatus} from '../../const';
 import {OfferDTO} from '../../types/offer';
 import {AppDispatch, RoomData} from '../../types/state';
-import {APIRoute, AppRoute, NameSpace, ApiActions, LoadingStatus} from '../../const';
 
 const initialState: RoomData = {
   loading: LoadingStatus.Idle,
@@ -16,25 +16,33 @@ const initialState: RoomData = {
   error: null,
 };
 
-export const fetchRoomAction = createAsyncThunk<OfferDTO | unknown, number, {state: RootState, dispatch: AppDispatch}>(
-  ApiActions.FetchRoom,
-  async (id, {getState, requestId, dispatch}) => {
+export const fetchRoomAction = createAsyncThunk<
+  OfferDTO,
+  number,
+  {
+    state: RootState,
+    dispatch: AppDispatch,
+    rejectValue: undefined
+  }
+  >(ApiActions.FetchRoom, async (id, {getState, requestId, dispatch, rejectWithValue}) => {
     const {currentRequestId, loading} = getState()[NameSpace.RoomData];
 
     if (loading !== LoadingStatus.Pending || requestId !== currentRequestId) {
-      return;
+      return rejectWithValue(undefined);
     }
 
     try {
       const {data} = await api.get<OfferDTO>(`${APIRoute.Room}${id}`);
 
-      return data as OfferDTO;
+      return data;
     } catch (error) {
       errorServerHandle(error);
       dispatch(redirectToRoute(AppRoute.NotFound));
+
+      return rejectWithValue(undefined);
     }
   },
-);
+  );
 
 export const roomData = createSlice({
   name: NameSpace.RoomData,
