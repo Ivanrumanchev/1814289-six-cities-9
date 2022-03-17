@@ -1,11 +1,11 @@
-import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
+import {ChangeEvent, Fragment, useState} from 'react';
 import {postNewReviewAction} from '../../../store/api-actions';
 import {loadReviews} from '../../../store/room-data/room-data';
 import {useAppDispatch} from '../../../hooks/store';
 import {ApiActions, TextLength} from '../../../const';
-import './new-review.css';
+import {errorHandle} from '../../../services/error-handle';
 
-const SHAKE_ANIMATION_TIMEOUT = 600;
+const ERROR_MESSAGE = 'Невозможно отправить отзыв. Попробуйте позднее';
 
 const ratings = [
   'perfect',
@@ -45,9 +45,7 @@ function NewReview(): JSX.Element {
     setValidationReviewState(reviewField.reportValidity());
   };
 
-  const resetForm = (form: HTMLFormElement) => {
-    form.reset();
-
+  const resetForm = () => {
     setRatingState('');
     setReviewState('');
 
@@ -55,17 +53,7 @@ function NewReview(): JSX.Element {
     setLoading(false);
   };
 
-  const showError = (form: HTMLFormElement) => {
-    form.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT/1000}s`;
-
-    setTimeout(() => {
-      form.style.animation = '';
-
-      setLoading(false);
-    }, SHAKE_ANIMATION_TIMEOUT);
-  };
-
-  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (evt: ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     setLoading(true);
@@ -77,14 +65,15 @@ function NewReview(): JSX.Element {
       }));
 
       if (newReviewsList.type === `${ApiActions.postNewReview}/rejected`) {
-        throw new Error('Невозможно отправить отзыв. Попробуйте позднее');
+        errorHandle(ERROR_MESSAGE);
+        throw new Error(ERROR_MESSAGE);
       }
 
       dispatch(loadReviews(newReviewsList.payload));
 
-      resetForm(evt.target as HTMLFormElement);
+      resetForm();
     } catch (error) {
-      showError(evt.target as HTMLFormElement);
+      setLoading(false);
     }
   };
 
@@ -97,28 +86,33 @@ function NewReview(): JSX.Element {
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {ratings.map((rating, index) => (
-          <Fragment key={rating}>
-            <input
-              className="form__rating-input visually-hidden"
-              name="rating"
-              id={`${Math.abs(index - ratings.length)}-stars`}
-              type="radio"
-              value={Math.abs(index - ratings.length)}
-              onInput={ratingChangeHandle}
-              disabled={loading}
-            />
-            <label
-              htmlFor={`${Math.abs(index - ratings.length)}-stars`}
-              className="reviews__rating-label form__rating-label"
-              title={rating}
-            >
-              <svg className="form__star-image" width="37" height="33">
-                <use xlinkHref="#icon-star"></use>
-              </svg>
-            </label>
-          </Fragment>
-        ))}
+        {ratings.map((rating, index) => {
+          const ratingValue = Math.abs(index - ratings.length);
+
+          return (
+            <Fragment key={rating}>
+              <input
+                className="form__rating-input visually-hidden"
+                name="rating"
+                id={`${ratingValue}-stars`}
+                type="radio"
+                value={ratingValue}
+                checked={ratingState === ratingValue.toString()}
+                onChange={ratingChangeHandle}
+                disabled={loading}
+              />
+              <label
+                htmlFor={`${ratingValue}-stars`}
+                className="reviews__rating-label form__rating-label"
+                title={rating}
+              >
+                <svg className="form__star-image" width="37" height="33">
+                  <use xlinkHref="#icon-star"></use>
+                </svg>
+              </label>
+            </Fragment>
+          );
+        })}
       </div>
       <textarea
         className="reviews__textarea form__textarea"
