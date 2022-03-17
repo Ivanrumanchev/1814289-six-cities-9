@@ -1,6 +1,7 @@
 import {Icon} from 'leaflet';
-import {OfferDTO} from './../types/offer';
 import {AuthorizationStatus, SortTypes} from '../const';
+import {ReviewDTO} from '../types/review';
+import {OfferDTO} from './../types/offer';
 
 const ICON_SIZE = 40;
 const RATING_RATIO = 20;
@@ -66,3 +67,5 @@ export const getSortedOffers = (offers: OfferDTO[], activeSort: SortTypes) => {
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
+
+export const sortReviewsByPrice = (reviewA: ReviewDTO, reviewB: ReviewDTO) => Date.parse(reviewB.date) - Date.parse(reviewA.date);

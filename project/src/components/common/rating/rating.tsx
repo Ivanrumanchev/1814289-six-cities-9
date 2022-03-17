@@ -1,5 +1,5 @@
-import {RatingType} from '../../../const';
 import {getRatingRate} from '../../../utils/common';
+import {RatingType} from '../../../const';
 
 type RatingProps = {
   ratingType: string;

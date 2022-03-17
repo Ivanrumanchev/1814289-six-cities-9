@@ -1,11 +1,17 @@
-import {useRef, FormEvent} from 'react';
-import {useAppDispatch} from '../../../hooks/store';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import {loginAction} from '../../../store/api-actions';
+import {useAppDispatch} from '../../../hooks/store';
+import {TextLength} from '../../../const';
 import {AuthData} from '../../../types/auth-data';
 
+enum ErrorMessage {
+  Email = 'Введите корректный email, соответствующий шаблону Example@mail.ru',
+  Password = 'Пароль должен содержать как минимум одну латинскую букву и одну цифру, а также не должен содержать пробелов',
+}
+
 function LoginForm(): JSX.Element {
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [emailState, setEmailState] = useState('');
+  const [passwordState, setPasswordState] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -16,12 +22,34 @@ function LoginForm(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-    }
+    onSubmit({
+      email: emailState,
+      password: passwordState,
+    });
+  };
+
+  const handleEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const emailField = evt.target;
+
+    setEmailState(emailField.value);
+
+    const result = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/.test(emailField.value);
+
+    result === false
+      ? emailField.setCustomValidity(ErrorMessage.Email)
+      : emailField.setCustomValidity('');
+  };
+
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const passwordField = evt.target;
+
+    setPasswordState(passwordField.value);
+
+    const result = /^(?=.*\d)(?=.*[a-zA-Z])(?!.*\s).{2,}$/.test(passwordField.value);
+
+    result === false
+      ? passwordField.setCustomValidity(ErrorMessage.Password)
+      : passwordField.setCustomValidity('');
   };
 
   return (
@@ -42,7 +70,9 @@ function LoginForm(): JSX.Element {
             name="email"
             placeholder="Email"
             required
-            ref={emailRef}
+            maxLength={TextLength.LoginMax}
+            value={emailState}
+            onChange={handleEmailChange}
           />
         </div>
 
@@ -55,7 +85,9 @@ function LoginForm(): JSX.Element {
             name="password"
             placeholder="Password"
             required
-            ref={passwordRef}
+            maxLength={TextLength.LoginMax}
+            value={passwordState}
+            onChange={handlePasswordChange}
           />
         </div>
 

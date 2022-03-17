@@ -2,13 +2,13 @@ import {useRef, useEffect} from 'react';
 import {Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../../hooks/use-map';
-import {OfferDTO} from '../../../types/offer';
 import {getIcon} from '../../../utils/common';
-import {citiesLocation, FilterType, TypeScreen} from '../../../const';
+import {citiesLocation, City, TypeScreen} from '../../../const';
+import {OfferDTO} from '../../../types/offer';
 
 type MapProps = {
   offers: OfferDTO[];
-  city: FilterType;
+  city: City;
   activeCard: OfferDTO | null;
   typeScreenProp: string;
 };

@@ -1,9 +1,9 @@
-import {FilterType} from '../../../const';
+import {activeCity} from '../../../store/offers-data/offers-data';
 import {useAppDispatch} from '../../../hooks/store';
-import {activeCity} from '../../../store/action';
+import {City} from '../../../const';
 
 type CitiesListProps = {
-  nameOfCity: FilterType;
+  nameOfCity: City;
 }
 
 function CitiesList({nameOfCity}: CitiesListProps): JSX.Element {
@@ -13,7 +13,7 @@ function CitiesList({nameOfCity}: CitiesListProps): JSX.Element {
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          {Object.values(FilterType).map((city) => (
+          {Object.values(City).map((city) => (
             <li className="locations__item" key={city}>
               <a
                 className={`locations__item-link tabs__item${nameOfCity === city ? ' tabs__item--active' : ''}`}

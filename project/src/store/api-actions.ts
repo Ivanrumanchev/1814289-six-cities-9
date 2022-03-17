@@ -1,72 +1,118 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {api, store} from './store';
-import {loadOffers, redirectToRoute, requireAuthorization, setUserData} from './action';
-import {errorHandle} from '../services/error-handle';
+import {api} from './store';
+import {RootState} from './rootReducer';
+import {loadNearby, loadReviews} from './room-data/room-data';
+import {requireAuthorization, setUserData} from './user-process/user-process';
 import {saveToken, dropToken} from '../services/token';
-import {OfferDTO} from '../types/offer';
+import {redirectToRoute} from './action';
+import {errorServerHandle} from '../services/error-handle';
+import {APIRoute, AppRoute, AuthorizationStatus, ApiActions, NameSpace} from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
-import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
+import {AppDispatch} from '../types/state';
+import {ReviewData} from '../types/review-data';
+import {OfferDTO} from '../types/offer';
+import {ReviewDTO} from '../types/review';
 
-enum ApiActions {
-  FetchOffers = 'data/fetchOffers',
-  CheckAuth = 'user/checkAuth',
-  Login = 'user/login',
-  Logout = 'user/logout',
-  ClearError = 'global/clearError',
-}
-
-export const fetchOffersAction = createAsyncThunk(
-  ApiActions.FetchOffers,
-  async () => {
-    try {
-      const {data} = await api.get<OfferDTO[]>(APIRoute.Offers);
-      store.dispatch(loadOffers(data));
-    } catch (error) {
-      errorHandle(error);
-    }
-  },
-);
-
-export const checkAuthAction = createAsyncThunk(
-  ApiActions.CheckAuth,
-  async () => {
+export const checkAuthAction = createAsyncThunk<
+    void,
+    void,
+    {dispatch: AppDispatch}
+  >(ApiActions.CheckAuth, async (_, {dispatch}) => {
     try {
       const {data} = await api.get(APIRoute.Login);
-      store.dispatch(setUserData(data));
-      store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch(error) {
-      errorHandle(error);
-      store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
-  },
-);
 
-export const loginAction = createAsyncThunk(
-  ApiActions.Login,
-  async ({email, password}: AuthData) => {
+      dispatch(setUserData(data));
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch(error) {
+      errorServerHandle(error);
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  });
+
+export const loginAction = createAsyncThunk<
+    void,
+    AuthData,
+    {dispatch: AppDispatch}
+  >(ApiActions.Login, async ({email, password}, {dispatch}) => {
     try {
       const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
-      saveToken(data.token);
-      store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      store.dispatch(setUserData(data));
-      store.dispatch(redirectToRoute(AppRoute.Root));
-    } catch (error) {
-      errorHandle(error);
-      store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
-  },
-);
 
-export const logoutAction = createAsyncThunk(
-  ApiActions.Logout,
-  async () => {
+      saveToken(data.token);
+
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(setUserData(data));
+      dispatch(redirectToRoute(AppRoute.Root));
+    } catch (error) {
+      errorServerHandle(error);
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  });
+
+export const logoutAction = createAsyncThunk<
+    void,
+    void,
+    {dispatch: AppDispatch}
+  >(ApiActions.Logout, async (_, {dispatch}) => {
     try {
       await api.delete(APIRoute.Logout);
+
       dropToken();
-      store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch (error) {
-      errorHandle(error);
+      errorServerHandle(error);
     }
-  },
-);
+  });
+
+export const fetchNearbyAction = createAsyncThunk<
+    void,
+    number,
+    {dispatch: AppDispatch}
+  >(ApiActions.FetchNearby, async (id, {dispatch}) => {
+    try {
+      const {data} = await api.get<OfferDTO[]>(`${APIRoute.Room}${id}/nearby`);
+
+      dispatch(loadNearby(data));
+    } catch (error) {
+      errorServerHandle(error);
+    }
+  });
+
+export const fetchReviewsAction = createAsyncThunk<
+    void,
+    number,
+    {
+      dispatch: AppDispatch,
+    }
+  >(ApiActions.FetchReviews, async (id, {dispatch}) => {
+    try {
+      const {data} = await api.get<ReviewDTO[]>(`${APIRoute.Comments}${id}`);
+
+      dispatch(loadReviews(data));
+    } catch (error) {
+      errorServerHandle(error);
+    }
+  });
+
+
+export const postNewReviewAction = createAsyncThunk<
+  ReviewDTO[],
+  ReviewData,
+  {
+    state: RootState,
+    rejectValue: undefined,
+  }
+  >(ApiActions.postNewReview, async ({comment, rating}, {getState, rejectWithValue}) => {
+    try {
+      const {id} = getState()[NameSpace.RoomData].room as OfferDTO;
+
+      const {data} = await api.post<ReviewDTO[]>(`${APIRoute.Comments}${id}`, {comment, rating});
+
+      return data;
+    } catch (error) {
+      errorServerHandle(error);
+
+      return rejectWithValue(undefined);
+    }
+  });

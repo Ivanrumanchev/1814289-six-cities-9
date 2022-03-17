@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './components/app/app';
 import {offers} from './mocks/offers';
-import {reviews} from './mocks/reviews';
 import {store} from './store/store';
-import {fetchOffersAction, checkAuthAction} from './store/api-actions';
-import 'react-toastify/dist/ReactToastify.css';
+import {checkAuthAction} from './store/api-actions';
+import {fetchOffersAction} from './store/offers-data/offers-data';
 
 store.dispatch(fetchOffersAction());
 store.dispatch(checkAuthAction());
@@ -18,7 +18,6 @@ ReactDOM.render(
       <ToastContainer />
       <App
         offers={offers}
-        reviews={reviews}
       />
     </Provider>
   </React.StrictMode>,

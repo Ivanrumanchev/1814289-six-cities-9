@@ -1,4 +1,4 @@
-import {FilterType} from '../const';
+import {City} from '../const';
 
 type Location = {
   latitude: number;
@@ -6,8 +6,8 @@ type Location = {
   zoom: number;
 }
 
-export type City = {
-  name: FilterType;
+export type Town = {
+  name: City;
   location: Location;
 };
 
@@ -19,7 +19,7 @@ type Host = {
 };
 
 export type OfferDTO = {
-  city: City;
+  city: Town;
   previewImage: string;
   images: string[];
   title: string;
@@ -38,5 +38,5 @@ export type OfferDTO = {
 };
 
 export type CitiesLocation = {
-  [keyof in FilterType]: City;
+  [keyof in City]: Town;
 }
