@@ -13,7 +13,7 @@ type ReviewsListProps = {
   offerId: number;
 }
 
-const QUANTITY_REVIEWS = 10;
+const QUANTITY_REVIEWS_MAX = 10;
 
 function ReviewsList({offerId}: ReviewsListProps): JSX.Element {
   const [loading, setLoading] = useState(false);
@@ -43,12 +43,14 @@ function ReviewsList({offerId}: ReviewsListProps): JSX.Element {
     );
   }
 
+  const quantityReviews = reviews.length < QUANTITY_REVIEWS_MAX ? reviews.length : QUANTITY_REVIEWS_MAX;
+
   return (
     <section className="property__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{quantityReviews}</span></h2>
 
       <ul className="reviews__list">
-        {reviews.slice().sort(sortReviewsByPrice).slice(0, QUANTITY_REVIEWS).map((review) => (
+        {reviews.slice().sort(sortReviewsByPrice).slice(0, QUANTITY_REVIEWS_MAX).map((review) => (
           <ReviewItem
             key={review.id}
             review={review}

@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {Link} from 'react-router-dom';
 import FavoriteButton from '../favorite-button/favorite-button';
 import Rating from '../../common/rating/rating';
@@ -18,9 +19,11 @@ function Card({offer, typeCardProp, onSetActiveCard}: CardProps): JSX.Element {
 
   const listeners = onSetActiveCard ? { onMouseEnter : () => onSetActiveCard(offer) } : {};
 
+  const isMain = typeCardProp === TypeScreen.Main;
+
   return (
     <article
-      className={`${typeCardProp === TypeScreen.Main ? 'cities__place-' : 'near-places__'}card place-card`}
+      className={`${isMain ? 'cities__place-' : 'near-places__'}card place-card`}
       {...listeners}
     >
       {isPremium &&
@@ -28,7 +31,7 @@ function Card({offer, typeCardProp, onSetActiveCard}: CardProps): JSX.Element {
           <span>Premium</span>
         </div>}
 
-      <div className={`${typeCardProp === TypeScreen.Main ? 'cities' : 'near-places'}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${isMain ? 'cities' : 'near-places'}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Property}${id}`}>
           <img className="place-card__image"
             src={previewImage}
@@ -49,6 +52,7 @@ function Card({offer, typeCardProp, onSetActiveCard}: CardProps): JSX.Element {
           <FavoriteButton
             offer={offer}
             typeScreenProp={TypeScreen.Main}
+            isNearby={!isMain}
           />
         </div>
 
@@ -67,4 +71,4 @@ function Card({offer, typeCardProp, onSetActiveCard}: CardProps): JSX.Element {
   );
 }
 
-export default Card;
+export default memo(Card);

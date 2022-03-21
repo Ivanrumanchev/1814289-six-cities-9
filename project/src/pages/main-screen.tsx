@@ -1,12 +1,21 @@
 import Header from '../components/common/header/header';
+import LoadingScreen from '../components/loading-screen/loading-screen';
 import CardsList from '../components/main-screen/cards-list/cards-list';
 import CitiesList from '../components/main-screen/cities-list/cities-list';
-import {citySelector, offersOfCitySelector} from '../store/selectors';
 import {useAppSelector} from '../hooks/store';
+import {citySelector, loadingOffersSelector, offersOfCitySelector} from '../store/selectors';
+import {LoadingStatus} from '../const';
 
 function MainScreen(): JSX.Element {
   const nameOfCity = useAppSelector(citySelector);
   const offersOfCity = useAppSelector(offersOfCitySelector);
+  const loading = useAppSelector(loadingOffersSelector);
+
+  if (loading === LoadingStatus.Pending) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const isNotEmptyOffers = offersOfCity.length !== 0;
 

@@ -64,7 +64,6 @@ function CardsList({offers, city, isNotEmptyOffers}: CardsListProps): JSX.Elemen
         </div>
       </div>
     </div>
-
   );
 }
 

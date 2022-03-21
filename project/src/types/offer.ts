@@ -40,3 +40,5 @@ export type OfferDTO = {
 export type CitiesLocation = {
   [keyof in City]: Town;
 }
+
+export type FilteredCities = {[keyof in City]: OfferDTO[]};

@@ -20,7 +20,7 @@ export const errorServerHandle = (error: ErrorType): void => {
         toast.info(response.data.error);
         break;
       case HttpCode.NotFound:
-        toast.info(response.statusText);
+        toast.error(response.statusText);
         break;
     }
   }

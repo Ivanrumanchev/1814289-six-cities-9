@@ -1,10 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api} from './store';
 import {RootState} from './rootReducer';
-import {loadNearby, loadReviews} from './room-data/room-data';
+import {loadNearby, loadReviews, updateFavoriteRoom} from './room-data/room-data';
 import {requireAuthorization, setUserData} from './user-process/user-process';
 import {saveToken, dropToken} from '../services/token';
 import {redirectToRoute} from './action';
+import {clearFavorites, updateFavorites} from './favorites-data/favorites-data';
+import {updateFavoriteOffer} from './offers-data/offers-data';
 import {errorServerHandle} from '../services/error-handle';
 import {APIRoute, AppRoute, AuthorizationStatus, ApiActions, NameSpace} from '../const';
 import {AuthData} from '../types/auth-data';
@@ -59,6 +61,7 @@ export const logoutAction = createAsyncThunk<
 
       dropToken();
 
+      dispatch(clearFavorites());
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch (error) {
       errorServerHandle(error);
@@ -71,7 +74,7 @@ export const fetchNearbyAction = createAsyncThunk<
     {dispatch: AppDispatch}
   >(ApiActions.FetchNearby, async (id, {dispatch}) => {
     try {
-      const {data} = await api.get<OfferDTO[]>(`${APIRoute.Room}${id}/nearby`);
+      const {data} = await api.get<OfferDTO[]>(`${APIRoute.Offers}/${id}/nearby`);
 
       dispatch(loadNearby(data));
     } catch (error) {
@@ -108,6 +111,32 @@ export const postNewReviewAction = createAsyncThunk<
       const {id} = getState()[NameSpace.RoomData].room as OfferDTO;
 
       const {data} = await api.post<ReviewDTO[]>(`${APIRoute.Comments}${id}`, {comment, rating});
+
+      return data;
+    } catch (error) {
+      errorServerHandle(error);
+
+      return rejectWithValue(undefined);
+    }
+  });
+
+export const addToFavoritesAction = createAsyncThunk<
+  OfferDTO,
+  OfferDTO,
+  {
+    state: RootState,
+    dispatch: AppDispatch,
+    rejectValue: undefined,
+  }
+  >(ApiActions.addToFavorites, async (offer, {rejectWithValue, dispatch}) => {
+    const {id, isFavorite} = offer;
+
+    try {
+      const {data} = await api.post<OfferDTO>(`${APIRoute.Favorite}/${id}/${Number(!isFavorite)}`);
+
+      dispatch(updateFavorites(data));
+      dispatch(updateFavoriteOffer(data));
+      dispatch(updateFavoriteRoom(data));
 
       return data;
     } catch (error) {

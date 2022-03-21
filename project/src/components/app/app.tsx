@@ -8,21 +8,15 @@ import PrivateRoute from '../private-route/private-route';
 import LoadingScreen from '../loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../services/browser-history';
-import {authSelector, loadingOffersSelector} from '../../store/selectors';
+import {authSelector} from '../../store/selectors';
 import {useAppSelector} from '../../hooks/store';
 import {isCheckedAuth} from '../../utils/common';
-import {AppRoute, LoadingStatus} from '../../const';
-import {OfferDTO} from '../../types/offer';
+import {AppRoute} from '../../const';
 
-type AppScreenProps = {
-  offers: OfferDTO[];
-}
-
-function App({offers}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   const authorizationStatus = useAppSelector(authSelector);
-  const loading = useAppSelector(loadingOffersSelector);
 
-  if (isCheckedAuth(authorizationStatus) || loading === LoadingStatus.Pending) {
+  if (isCheckedAuth(authorizationStatus)) {
     return (
       <LoadingScreen />
     );
@@ -54,7 +48,7 @@ function App({offers}: AppScreenProps): JSX.Element {
             <PrivateRoute
               targetRoute={AppRoute.Login}
             >
-              <FavoritesScreen offers={offers} />
+              <FavoritesScreen />
             </PrivateRoute>
           }
         />

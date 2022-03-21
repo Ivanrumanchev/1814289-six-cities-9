@@ -1,13 +1,13 @@
-import {OfferDTO} from '../../../types/offer';
+import {memo} from 'react';
 
 type GalleryProps = {
-  room: OfferDTO;
+  roomImages: string[];
 }
 
 const QUANTITY_IMAGES_GALLERY = 6;
 
-function Gallery({room}: GalleryProps): JSX.Element {
-  const images = room.images.slice(0, QUANTITY_IMAGES_GALLERY);
+function Gallery({roomImages}: GalleryProps): JSX.Element {
+  const images = roomImages.slice(0, QUANTITY_IMAGES_GALLERY);
 
   return (
     <div className="property__gallery-container container">
@@ -22,4 +22,4 @@ function Gallery({room}: GalleryProps): JSX.Element {
   );
 }
 
-export default Gallery;
+export default memo(Gallery);

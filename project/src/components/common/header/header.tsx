@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import Logo from '../../common/logo/logo';
 import HeaderLogin from '../header-login/header-login';
 
@@ -20,4 +21,4 @@ function Header({isLogin = false} : HeaderProps): JSX.Element {
   );
 }
 
-export default Header;
+export default memo(Header);
