@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {getRatingRate} from '../../../utils/common';
 import {RatingType} from '../../../const';
 
@@ -18,4 +19,4 @@ function Rating({rating, ratingType}: RatingProps): JSX.Element {
   );
 }
 
-export default Rating;
+export default memo(Rating);

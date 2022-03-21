@@ -1,4 +1,4 @@
-import {MutableRefObject, useEffect, useRef, useState} from 'react';
+import {memo, MutableRefObject, useEffect, useRef, useState} from 'react';
 import {SortTypes} from '../../../const';
 
 type SortProps = {
@@ -71,4 +71,4 @@ function Sort({activeSort, onSetActiveSort}: SortProps): JSX.Element {
   );
 }
 
-export default Sort;
+export default memo(Sort);

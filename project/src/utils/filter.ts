@@ -1,7 +1,5 @@
 import {City} from '../const';
-import {OfferDTO} from '../types/offer';
-
-type FilteredCities = {[keyof in City]: OfferDTO[]};
+import {FilteredCities, OfferDTO} from '../types/offer';
 
 export const filter = (offers: OfferDTO[]): FilteredCities =>
   offers.reduce<FilteredCities>((filteredCitiesResult, currentOffer) => {

@@ -32,7 +32,7 @@ export const fetchRoomAction = createAsyncThunk<
     }
 
     try {
-      const {data} = await api.get<OfferDTO>(`${APIRoute.Room}${id}`);
+      const {data} = await api.get<OfferDTO>(`${APIRoute.Offers}/${id}`);
 
       return data;
     } catch (error) {
@@ -62,6 +62,11 @@ export const roomData = createSlice({
     },
     clearRoom: (state) => {
       state.room = null;
+    },
+    updateFavoriteRoom: (state, action) => {
+      if (state.room) {
+        state.room.isFavorite = action.payload.isFavorite;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -97,4 +102,4 @@ export const roomData = createSlice({
   },
 });
 
-export const {clearRoom, loadReviews, clearReviews, loadNearby, clearNearby} = roomData.actions;
+export const {clearRoom, loadReviews, clearReviews, loadNearby, clearNearby, updateFavoriteRoom} = roomData.actions;

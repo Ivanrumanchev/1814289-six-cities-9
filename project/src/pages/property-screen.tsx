@@ -48,7 +48,7 @@ function PropertyScreen(): JSX.Element {
 
       <main className="page__main page__main--property">
         <section className="property">
-          <Gallery room={room} />
+          <Gallery roomImages={room.images} />
 
           <div className="property__container container">
             <div className="property__wrapper">

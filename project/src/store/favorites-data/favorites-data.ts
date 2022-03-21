@@ -2,34 +2,33 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../rootReducer';
 import {api} from '../store';
 import {errorServerHandle} from '../../services/error-handle';
-import {APIRoute, City, NameSpace, ApiActions, LoadingStatus} from '../../const';
+import {APIRoute, NameSpace, ApiActions, LoadingStatus} from '../../const';
 import {OfferDTO} from '../../types/offer';
 import {OffersData} from '../../types/state';
 
-const initialState: OffersData = {
+const initialState: Omit<OffersData, 'city'> = {
   loading: LoadingStatus.Idle,
   offers: [],
   currentRequestId: '',
   error: null,
-  city: City.Paris,
 };
 
-export const fetchOffersAction = createAsyncThunk<
+export const fetchFavoritesAction = createAsyncThunk<
     OfferDTO[],
     void,
     {
       state: RootState,
       rejectValue: undefined,
     }
-  >(ApiActions.FetchOffers, async (_,{getState, requestId, rejectWithValue}) => {
-    const {currentRequestId, loading} = getState()[NameSpace.OffersData];
+  >(ApiActions.fetchFavorites, async (_,{getState, requestId, rejectWithValue}) => {
+    const {currentRequestId, loading} = getState()[NameSpace.FavoriteData];
 
     if (loading !== LoadingStatus.Pending || requestId !== currentRequestId) {
       return rejectWithValue(undefined);
     }
 
     try {
-      const {data} = await api.get<OfferDTO[]>(APIRoute.Offers);
+      const {data} = await api.get<OfferDTO[]>(APIRoute.Favorite);
 
       return data;
     } catch (error) {
@@ -39,32 +38,32 @@ export const fetchOffersAction = createAsyncThunk<
     }
   });
 
-export const offersData = createSlice({
-  name: NameSpace.OffersData,
+export const FavoritesData = createSlice({
+  name: NameSpace.FavoriteData,
   initialState,
   reducers: {
-    activeCity: (state, action) => {
-      state.city = action.payload;
-    },
-    updateFavoriteOffer: (state, action) => {
+    updateFavorites: (state, action) => {
       if (state.offers) {
-        const currentOffer = state.offers.find((offer) => offer.id === action.payload.id);
+        const index = state.offers.findIndex((offer) => offer.id === action.payload.id);
 
-        if (currentOffer) {
-          currentOffer.isFavorite = action.payload.isFavorite;
-        }
+        index !== -1
+          ? state.offers.splice(index, 1)
+          : state.offers.push(action.payload);
       }
+    },
+    clearFavorites: (state) => {
+      state.offers = initialState.offers;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOffersAction.pending, (state, action) => {
+      .addCase(fetchFavoritesAction.pending, (state, action) => {
         if (state.loading === LoadingStatus.Idle) {
           state.loading = LoadingStatus.Pending;
           state.currentRequestId = action.meta.requestId;
         }
       })
-      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         const {requestId} = action.meta;
         if (
           state.loading === LoadingStatus.Pending &&
@@ -75,7 +74,7 @@ export const offersData = createSlice({
           state.currentRequestId = undefined;
         }
       })
-      .addCase(fetchOffersAction.rejected, (state, action) => {
+      .addCase(fetchFavoritesAction.rejected, (state, action) => {
         const {requestId} = action.meta;
         if (
           state.loading === LoadingStatus.Pending &&
@@ -89,4 +88,4 @@ export const offersData = createSlice({
   },
 });
 
-export const {activeCity, updateFavoriteOffer} = offersData.actions;
+export const {updateFavorites, clearFavorites} = FavoritesData.actions;

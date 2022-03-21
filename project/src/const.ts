@@ -95,9 +95,7 @@ export enum SortTypes {
 
 export enum APIRoute {
   Offers = '/hotels',
-  Room = '/hotels/',
   Favorite = '/favorite',
-  FavoriteStatus = '/favorite/{hotelId}/{status}',
   Comments = '/comments/',
   Login = '/login',
   Logout = '/logout',
@@ -118,18 +116,21 @@ export enum TextLength {
 export enum NameSpace {
   OffersData = 'OFFERS_DATA',
   RoomData = 'ROOM_DATA',
+  FavoriteData = 'FAVORITE_DATA',
   User = 'USER',
 }
 
 export enum ApiActions {
-  FetchOffers = 'data/fetchOffers',
   CheckAuth = 'user/checkAuth',
   Login = 'user/login',
   Logout = 'user/logout',
+  addToFavorites = 'user/addToFavorites',
+  FetchOffers = 'data/fetchOffers',
   FetchRoom = 'data/fetchRoom',
   FetchReviews = 'data/fetchReviews',
   FetchNearby = 'data/fetchNearby',
   postNewReview = 'data/postNewReview',
+  fetchFavorites = 'data/fetchFavorites',
 }
 
 export enum LoadingStatus {

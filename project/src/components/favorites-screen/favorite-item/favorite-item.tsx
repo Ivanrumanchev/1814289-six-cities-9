@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {Link} from 'react-router-dom';
 import FavoriteButton from '../../common/favorite-button/favorite-button';
 import Rating from '../../common/rating/rating';
@@ -41,6 +42,7 @@ function FavoriteItem({offer}: FavoriteItemProps): JSX.Element {
           <FavoriteButton
             offer={offer}
             typeScreenProp={TypeScreen.Main}
+            isFavoriteScreen
           />
         </div>
 
@@ -59,4 +61,4 @@ function FavoriteItem({offer}: FavoriteItemProps): JSX.Element {
   );
 }
 
-export default FavoriteItem;
+export default memo(FavoriteItem);

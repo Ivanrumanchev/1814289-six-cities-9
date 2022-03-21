@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {activeCity} from '../../../store/offers-data/offers-data';
 import {useAppDispatch} from '../../../hooks/store';
 import {City} from '../../../const';
@@ -33,4 +34,4 @@ function CitiesList({nameOfCity}: CitiesListProps): JSX.Element {
   );
 }
 
-export default CitiesList;
+export default memo(CitiesList);
